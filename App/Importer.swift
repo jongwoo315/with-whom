@@ -19,8 +19,11 @@ final class Importer {
         let events: [EventInput]
         do {
             events = try await CalendarSource().events()
-        } catch {
+        } catch CalendarSource.SourceError.denied {
             message = "캘린더 권한이 없어 일정을 가져오지 못했다. 설정에서 캘린더 접근을 허용하면 된다."
+            return
+        } catch {
+            message = "일정을 읽지 못했다: \(error.localizedDescription)"
             return
         }
 
