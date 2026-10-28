@@ -1,0 +1,27 @@
+name: WithWhom
+options:
+  bundleIdPrefix: com.jongwoo315
+  deploymentTarget:
+    iOS: "26.0"
+targets:
+  WithWhom:
+    type: application
+    platform: iOS
+    sources:
+      - App
+      # Xcode 26.5에 iOS 26.2 런타임만 깔린 기기에서는 package 의존이 있으면 빌드 대상(destination)이
+      # 하나도 안 잡힌다. 그래서 Core 소스를 앱 target에 직접 넣는다. 테스트는 Core/에서 swift test.
+      - Core/Sources/WithWhomCore
+    info:
+      path: App/Info.plist
+      properties:
+        CFBundleDisplayName: 함께
+        UILaunchScreen: {}
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
+        NSCalendarsFullAccessUsageDescription: 일정 제목에서 누구와 언제 무엇을 했는지 뽑으려고 캘린더를 읽는다.
+        NSContactsUsageDescription: 일정 제목에 나온 이름이 누구인지 알아보려고 연락처의 이름을 읽는다.
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.jongwoo315.withwhom
+        SWIFT_VERSION: "5.0"
+        TARGETED_DEVICE_FAMILY: "1"
