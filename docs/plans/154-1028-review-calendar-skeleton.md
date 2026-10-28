@@ -10,8 +10,8 @@
 | 1 | Important | `App/Importer.swift:30` | 연락처를 못 읽은 실행(권한을 끈 경우·`CNError`)이 `people = []`·`needsReview = true`로 이미 가져온 일정의 사람 연결을 전부 지우고 확인 필요로 보낸다 | fix `2adae26` |
 | 2 | Important | `App/Importer.swift:21` | 캘린더 읽기 오류가 전부 「권한이 없다」로 안내된다. 권한 거부가 아닌 EventKit 오류에도 설정으로 가라고 한다 | fix `0ef75de` |
 | 3 | Important | `Core/Tests/WithWhomCoreTests/TitleParserTests.swift:74` | plan 규칙 「사람이 없으면 항목은 제목 전체 하나」가 ` - `가 든 제목에서는 테스트가 없다 | fix `cf9a686` |
-| 4 | Important | `project.yml:13` | plan Task 4는 `Core`를 local package 의존으로 쓰라고 했는데 앱 target에 Core 소스를 직접 넣었다 | won't-fix — 작성자가 package 의존 시 이 기기(Xcode 26.5 + iOS 26.2 런타임만)에서 빌드 destination이 안 잡혔다고 README에 적었다. 이 세션에서는 그 재현을 하지 않았다. 직접 포함 구성으로 plan Pre-PR의 `-scheme`/`-destination` 빌드는 성공한다 (`BUILD SUCCEEDED`). 의존 방식 복귀는 사람이 정한다 |
-| 5 | Suggestion | `App/Importer.swift:53` | upsert가 삭제를 반영하지 않는다. 캘린더에서 지운 일정·반복으로 바뀐 일정이 앱에 계속 남는다 | defer — 이번 plan 범위(가져오기 한 번)에 삭제 동기화가 없다. 데이터를 지우는 동작이라 어떤 일정을 지울지 정하고 들어가야 한다 |
+| 4 | Important | `project.yml:14` | plan Task 4는 `Core`를 local package 의존으로 쓰라고 했는데 앱 target에 Core 소스를 직접 넣었다 | won't-fix — 작성자가 package 의존 시 이 기기(Xcode 26.5 + iOS 26.2 런타임만)에서 빌드 destination이 안 잡혔다고 README에 적었다. 이 세션에서는 그 재현을 하지 않았다. 직접 포함 구성으로 plan Pre-PR의 `-scheme`/`-destination` 빌드는 성공한다 (`BUILD SUCCEEDED`). 의존 방식 복귀는 사람이 정한다 |
+| 5 | Suggestion | `App/Importer.swift:51` | upsert가 삭제를 반영하지 않는다. 캘린더에서 지운 일정·반복으로 바뀐 일정이 앱에 계속 남는다 | defer — 이번 plan 범위(가져오기 한 번)에 삭제 동기화가 없다. 데이터를 지우는 동작이라 어떤 일정을 지울지 정하고 들어가야 한다 |
 | 6 | Suggestion | `App/ContentView.swift:25` | 다시 가져오는 동안 이전 실행의 결과 메시지가 그대로 보이고 진행 표시가 없다 | 기록만 |
 | 7 | Suggestion | `Core/Tests/WithWhomCoreTests/MeasurementTests.swift:29` | `expect` 값(`auto`/`review`)과 분모 25를 검사하지 않아 정답 파일 오타가 조용히 `wrong`으로 센다 | 기록만 |
 | 8 | Suggestion | `Core/Sources/WithWhomCore/PersonDictionary.swift:25` | 이름이 같은 연락처 둘이면 먼저 온 쪽만 사전에 남는다(`김가람`·`이가람` → `가람`). 동작은 의도적이나 테스트가 없다 | 기록만 |
