@@ -79,6 +79,12 @@ struct TitleParserTests {
             == .review(items: ["헤어컷"]))
     }
 
+    @Test("사람이 없으면 ' - '가 있어도 항목은 제목 전체 하나다")
+    func noPersonReviewWithDash() {
+        #expect(TitleParser.parse("개발팀 - 회식, 점심", dictionary: dict)
+            == .review(items: ["개발팀 - 회식, 점심"]))
+    }
+
     @Test("왼쪽에 사람이 없고 오른쪽에만 있어도 사람은 있다")
     func personOnlyOnRight() {
         #expect(TitleParser.parse("점심 - 가람이랑 잡채", dictionary: dict)
