@@ -43,8 +43,8 @@ final class Importer {
     }
 
     private func upsert(_ drafts: [MomentDraft], into context: ModelContext) throws {
-        var moments = Dictionary(uniqueKeysWithValues: try context.fetch(FetchDescriptor<Moment>()).map { ($0.sourceId, $0) })
-        var persons = Dictionary(uniqueKeysWithValues: try context.fetch(FetchDescriptor<Person>()).map { ($0.name, $0) })
+        var moments = Dictionary(try context.fetch(FetchDescriptor<Moment>()).map { ($0.sourceId, $0) }, uniquingKeysWith: { first, _ in first })
+        var persons = Dictionary(try context.fetch(FetchDescriptor<Person>()).map { ($0.name, $0) }, uniquingKeysWith: { first, _ in first })
 
         for draft in drafts {
             let people = draft.people.sorted().map { name in
