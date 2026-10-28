@@ -1,0 +1,48 @@
+{
+  "note": "2026-04-25 ~ 2026-11-25 실제 캘린더의 반복 아닌 일정 31개. 사람 이름과 집 위치는 가명으로 바꿨다. people·items·expect는 착수 전에 사람이 붙인 정답이다. 구현이 이 파일을 고치지 않는다.",
+  "contactShapes": {
+    "split": [
+      {"given": "가람", "family": "김"}, {"given": "한결", "family": "이"}, {"given": "나래", "family": "박"},
+      {"given": "마루", "family": "최"}, {"given": "다솜", "family": "정"}, {"given": "보라", "family": "강"},
+      {"given": "하나", "family": "조"}, {"given": "바다", "family": "윤"}, {"given": "세라", "family": "장"}
+    ],
+    "fullInGiven": [
+      {"given": "김가람", "family": ""}, {"given": "이한결", "family": ""}, {"given": "박나래", "family": ""},
+      {"given": "최마루", "family": ""}, {"given": "정다솜", "family": ""}, {"given": "강보라", "family": ""},
+      {"given": "조하나", "family": ""}, {"given": "윤바다", "family": ""}, {"given": "장세라", "family": ""}
+    ]
+  },
+  "cases": [
+    {"n": 1,  "date": "2026-04-25", "title": "가람이 🤍 - 잡채, 악마는프라다", "expect": "auto", "people": ["가람"], "items": ["잡채", "악마는프라다"]},
+    {"n": 2,  "date": "2026-05-02", "title": "한결이 결혼식", "expect": "auto", "people": ["한결"], "items": ["결혼식"]},
+    {"n": 3,  "date": "2026-05-07", "title": "나래 이태원", "expect": "auto", "people": ["나래"], "items": ["이태원"]},
+    {"n": 4,  "date": "2026-05-25", "title": "가람이 🤍 - 연희동, 연남동", "expect": "auto", "people": ["가람"], "items": ["연희동", "연남동"]},
+    {"n": 5,  "date": "2026-05-29", "title": "가람이 🤍 - 진미평냉, 집", "expect": "auto", "people": ["가람"], "items": ["진미평냉", "집"]},
+    {"n": 6,  "date": "2026-05-30", "title": "가람이 🤍 - 뽐모도르 을지맥옥", "expect": "auto", "people": ["가람"], "items": ["뽐모도르 을지맥옥"]},
+    {"n": 7,  "date": "2026-06-02", "title": "가람이 🤍 - 을지맥옥 광화문, 서순라길", "expect": "auto", "people": ["가람"], "items": ["을지맥옥 광화문", "서순라길"]},
+    {"n": 8,  "date": "2026-06-03", "title": "가람이 🤍 - 구뜰집, 스텔라 떡볶이", "expect": "auto", "people": ["가람"], "items": ["구뜰집", "스텔라 떡볶이"]},
+    {"n": 9,  "date": "2026-06-05", "title": "가람이 🤍 - 한남 북엇국, 호머, 복분자소주", "expect": "auto", "people": ["가람"], "items": ["한남 북엇국", "호머", "복분자소주"]},
+    {"n": 10, "date": "2026-06-06", "title": "가람이 🤍 - 집, 달맥슈퍼, 경리단길", "expect": "auto", "people": ["가람"], "items": ["집", "달맥슈퍼", "경리단길"]},
+    {"n": 11, "date": "2026-06-08", "title": "가람이 🤍 - 기와탭룸, 법원", "expect": "auto", "people": ["가람"], "items": ["기와탭룸", "법원"]},
+    {"n": 12, "date": "2026-06-11", "title": "가람이 🤍 - 우리집, 복분자소주", "expect": "auto", "people": ["가람"], "items": ["우리집", "복분자소주"]},
+    {"n": 13, "date": "2026-06-12", "title": "가람이 🤍 - 나래 후 망원, 기절", "expect": "auto", "people": ["가람", "나래"], "items": ["후 망원", "기절"]},
+    {"n": 14, "date": "2026-06-13", "title": "가람이 🤍 - 성수 짐블랙, 순대국, 커피, 집, 저녁엔 망원, 페인 허슬러", "expect": "auto", "people": ["가람"], "items": ["성수 짐블랙", "순대국", "커피", "집", "저녁엔 망원", "페인 허슬러"]},
+    {"n": 15, "date": "2026-06-16", "title": "가람이 🤍 - 합정 와모, 트월킹", "expect": "auto", "people": ["가람"], "items": ["합정 와모", "트월킹"]},
+    {"n": 16, "date": "2026-06-20", "title": "마루, 다솜", "expect": "auto", "people": ["마루", "다솜"], "items": []},
+    {"n": 17, "date": "2026-06-26", "title": "가람이 🤍 - 선유도, 망원집", "expect": "auto", "people": ["가람"], "items": ["선유도", "망원집"]},
+    {"n": 18, "date": "2026-06-27", "title": "가람이 🤍 - 망원집", "expect": "auto", "people": ["가람"], "items": ["망원집"]},
+    {"n": 19, "date": "2026-06-28", "title": "가람이 🤍 - 망원집, 경의선숲길", "expect": "auto", "people": ["가람"], "items": ["망원집", "경의선숲길"]},
+    {"n": 20, "date": "2026-06-29", "title": "개발팀 회식", "expect": "review", "people": [], "items": ["개발팀 회식"]},
+    {"n": 21, "date": "2026-07-08", "title": "보라 점심", "expect": "auto", "people": ["보라"], "items": ["점심"]},
+    {"n": 22, "date": "2026-07-09", "title": "하나 청첩장", "expect": "auto", "people": ["하나"], "items": ["청첩장"]},
+    {"n": 23, "date": "2026-07-17", "title": "헤어컷", "expect": "review", "people": [], "items": ["헤어컷"]},
+    {"n": 24, "date": "2026-08-16", "title": "다솜 마루", "expect": "auto", "people": ["다솜", "마루"], "items": []},
+    {"n": 25, "date": "2026-08-23", "title": "하나 결혼식", "expect": "auto", "people": ["하나"], "items": ["결혼식"]},
+    {"n": 26, "date": "2026-09-18", "title": "자기가 바다 세라씨 만나는 날", "expect": "review", "people": [], "items": ["자기가 바다 세라씨 만나는 날"], "why": "연인(가람)이 바다·세라를 만나는 날이고 jw는 없다. 제목만으로는 jw가 그 자리에 있었는지 알 수 없다"},
+    {"n": 27, "date": "2026-09-30", "title": "운영 & 효율그룹 회식참여", "expect": "review", "people": [], "items": ["운영 & 효율그룹 회식참여"]},
+    {"n": 28, "date": "2026-10-30", "title": "휴가 - 가람이랑 학교 은행나무", "expect": "auto", "people": ["가람"], "items": ["휴가", "학교 은행나무"]},
+    {"n": 29, "date": "2026-11-02", "title": "건강검진", "expect": "review", "people": [], "items": ["건강검진"]},
+    {"n": 30, "date": "2026-11-08", "title": "찜질방??", "expect": "review", "people": [], "items": ["찜질방??"]},
+    {"n": 31, "date": "2026-11-21", "title": "가람이 사촌동생 결혼식", "expect": "auto", "people": ["가람"], "items": ["사촌동생 결혼식"]}
+  ]
+}
