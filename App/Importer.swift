@@ -36,6 +36,7 @@ final class Importer {
         do {
             try upsert(drafts, into: context)
         } catch {
+            context.rollback()
             message = "저장하지 못했다: \(error.localizedDescription)"
             return
         }

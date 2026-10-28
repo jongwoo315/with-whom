@@ -14,9 +14,11 @@ struct CalendarSource {
         let from = calendar.date(byAdding: .year, value: -1, to: now)!
         let to = calendar.date(byAdding: .day, value: 30, to: now)!
         let predicate = store.predicateForEvents(withStart: from, end: to, calendars: nil)
-        return store.events(matching: predicate).map { event in
-            EventInput(
-                id: event.calendarItemExternalIdentifier ?? event.eventIdentifier ?? UUID().uuidString,
+        return store.events(matching: predicate).compactMap { event in
+            // id가 없으면 가져올 때마다 다른 id가 붙어 중복되므로 건너뛴다
+            guard let id = event.calendarItemExternalIdentifier ?? event.eventIdentifier else { return nil }
+            return EventInput(
+                id: id,
                 title: event.title ?? "",
                 start: event.startDate,
                 end: event.endDate,

@@ -60,13 +60,14 @@ struct PeopleView: View {
     @Query(sort: \Person.name) private var people: [Person]
 
     var body: some View {
-        List(people.filter { !$0.moments.isEmpty }) { person in
+        let visible = people.filter { !$0.moments.isEmpty }
+        List(visible) { person in
             NavigationLink("\(person.name) (\(person.moments.count))") {
                 List(person.moments.sorted { $0.start > $1.start }) { MomentRow(moment: $0) }
                     .navigationTitle(person.name)
             }
         }
-        .overlay { if people.isEmpty { ContentUnavailableView("아직 사람이 없다", systemImage: "person.2", description: Text("「가져오기」를 누르면 일정에서 뽑는다.")) } }
+        .overlay { if visible.isEmpty { ContentUnavailableView("아직 사람이 없다", systemImage: "person.2", description: Text("「가져오기」를 누르면 일정에서 뽑는다.")) } }
     }
 }
 
