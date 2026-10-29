@@ -21,6 +21,12 @@ xcodebuild -project WithWhom.xcodeproj -target WithWhom -sdk iphonesimulator -co
 - 앱 target은 `Core/Sources/WithWhomCore`를 직접 컴파일한다. package로 의존하면 Xcode 26.5에 iOS 26.2 시뮬레이터 런타임만 깔린 기기에서 빌드 대상이 하나도 안 잡혔다. 그래서 `-scheme`/`-destination` 대신 `-target`/`-sdk`로 빌드한다
 - 시뮬레이터에서 버튼 탭 없이 가져오기를 돌리려면 Debug 빌드를 `-autoImport` 인자로 실행한다: `xcrun simctl launch <UDID> com.jongwoo315.withwhom -autoImport`
 
+## 캘린더 고르기
+
+- 툴바 「캘린더」 버튼으로 캘린더 목록이 열리고, 캘린더마다 읽을지 켜고 끄는 스위치가 있다. 시트를 닫으면 가져오기가 한 번 다시 돌고, 끈 캘린더의 일정은 새로 들어오지 않으며 이미 들어온 것은 지워진다
+- 저장된 선택이 없을 때 기본값은 종류가 구독·생일인 캘린더와, 이름에 「휴일」·「holiday」(대소문자 무시)가 든 캘린더를 뺀 상태다. 규칙은 `Core/Sources/WithWhomCore/CalendarFilter.swift`에 있다
+- 선택은 `UserDefaults` 키 `excludedCalendarIds`에 저장한다
+
 ## 측정 줄 읽는 법
 
 `swift test`는 연락처 꼴(`split`: 성·이름 분리, `fullInGiven`: 이름 칸에 전체 이름) 둘로 견본 31개를 돌려 한 줄씩 출력한다.
