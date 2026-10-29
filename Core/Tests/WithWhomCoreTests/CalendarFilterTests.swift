@@ -44,6 +44,28 @@ struct CalendarFilterTests {
         #expect(dropped.isEmpty)
     }
 
+    @Test("이미 저장된 일정 중 뺀 캘린더 것만 지울 대상이다")
+    func staleSourceIds() {
+        let t = Date(timeIntervalSince1970: 1_780_000_000)
+        func event(_ id: String, _ calendarId: String) -> EventInput {
+            EventInput(id: id, title: id, start: t, end: t, isRecurring: false, calendarId: calendarId)
+        }
+        // 저장돼 있던 것: 공휴일 h1, 이전에 읽은 공휴일 h2(이번 읽기엔 없음), 남긴 캘린더 일정 a, 두 캘린더에 다 있는 s
+        let (_, dropped) = CalendarFilter.split(
+            [event("h1", "공휴일"), event("a", "홈"), event("s", "홈"), event("s", "공휴일")], excluded: ["공휴일"])
+        let stale = CalendarFilter.staleSourceIds(existing: ["h1", "h2", "a", "s"], dropped: dropped)
+        #expect(stale == ["h1"])
+    }
+
+    @Test("뺀 캘린더가 없으면 아무것도 지우지 않는다")
+    func nothingExcluded() {
+        let t = Date(timeIntervalSince1970: 1_780_000_000)
+        let events = [EventInput(id: "a", title: "a", start: t, end: t, isRecurring: false, calendarId: "홈")]
+        let (kept, dropped) = CalendarFilter.split(events, excluded: [])
+        #expect(kept == events)
+        #expect(CalendarFilter.staleSourceIds(existing: ["a"], dropped: dropped).isEmpty)
+    }
+
     @Test("calendarId를 안 넘기는 기존 호출은 빈 문자열이다")
     func calendarIdDefault() {
         let t = Date(timeIntervalSince1970: 1_780_000_000)

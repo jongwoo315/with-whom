@@ -34,4 +34,9 @@ public enum CalendarFilter {
         let dropped = Set(events.filter { excluded.contains($0.calendarId) }.map(\.id))
         return (kept, dropped.subtracting(kept.map(\.id)))
     }
+
+    /// 이미 저장된 일정(existing) 중 뺀 캘린더 때문에 지워야 할 sourceId.
+    public static func staleSourceIds(existing: Set<String>, dropped: Set<String>) -> Set<String> {
+        existing.intersection(dropped)
+    }
 }

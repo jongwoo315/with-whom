@@ -54,7 +54,7 @@ final class Importer {
     private func upsert(_ drafts: [MomentDraft], droppingSourceIds droppedIds: Set<String>, keepingPeopleOfExisting: Bool, into context: ModelContext) throws {
         var moments = Dictionary(try context.fetch(FetchDescriptor<Moment>()).map { ($0.sourceId, $0) }, uniquingKeysWith: { first, _ in first })
         // 뺀 캘린더의 일정으로 이미 들어와 있던 것은 지운다. 비게 된 Person은 사람 목록 화면이 숨긴다
-        for id in droppedIds {
+        for id in CalendarFilter.staleSourceIds(existing: Set(moments.keys), dropped: droppedIds) {
             if let moment = moments.removeValue(forKey: id) { context.delete(moment) }
         }
         var persons = Dictionary(try context.fetch(FetchDescriptor<Person>()).map { ($0.name, $0) }, uniquingKeysWith: { first, _ in first })
