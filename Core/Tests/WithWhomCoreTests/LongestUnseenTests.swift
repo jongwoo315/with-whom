@@ -62,6 +62,13 @@ struct LongestUnseenTests {
         #expect(result?.days == 29)
     }
 
+    @Test("지금과 같은 시각이나 오늘 이른 시각은 만난 것이라 0일로 남는다")
+    func sameDayCountsAsZero() {
+        #expect(pick([("가람", at(10, 30, 9))])?.days == 0)
+        #expect(pick([("가람", at(10, 30, 8))])?.days == 0)
+        #expect(pick([("가람", at(10, 30, 12))]) == nil)
+    }
+
     @Test("가장 오래된 사람이 목록 가운데 있어도 고른다")
     func oldestInMiddle() {
         let result = pick([("나래", at(10, 20, 9)), ("가람", at(10, 1, 9)), ("다솜", at(10, 10, 9))])
