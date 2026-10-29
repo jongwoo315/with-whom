@@ -16,9 +16,9 @@ final class Importer {
         isRunning = true
         defer { isRunning = false }
 
-        let events: [EventInput]
+        let calendars: [CalendarInfo], events: [EventInput]
         do {
-            events = try await CalendarSource().events()
+            (calendars, events) = try await CalendarSource().read()
         } catch CalendarSource.SourceError.denied {
             message = "캘린더 권한이 없어 일정을 가져오지 못했다. 설정에서 캘린더 접근을 허용하면 된다."
             return
@@ -37,19 +37,26 @@ final class Importer {
             notice = " 연락처를 읽지 못해 사람을 찾지 못했다. 새 일정은 확인 필요로 들어갔고, 이미 가져온 일정의 사람은 그대로 뒀다."
         }
 
-        let drafts = MomentBuilder.build(events, dictionary: PersonDictionary(contacts: contacts))
+        let excluded = CalendarSource.excludedIds(for: calendars)
+        let (kept, droppedIds) = CalendarFilter.split(events, excluded: excluded)
+        let drafts = MomentBuilder.build(kept, dictionary: PersonDictionary(contacts: contacts))
         do {
-            try upsert(drafts, keepingPeopleOfExisting: !contactsLoaded, into: context)
+            try upsert(drafts, droppingSourceIds: droppedIds, keepingPeopleOfExisting: !contactsLoaded, into: context)
         } catch {
             context.rollback()
             message = "저장하지 못했다: \(error.localizedDescription)"
             return
         }
-        message = "일정 \(drafts.count)개를 가져왔다.\(notice)"
+        let skipped = droppedIds.isEmpty ? "" : " 뺀 캘린더 일정 \(droppedIds.count)개는 넣지 않았다."
+        message = "일정 \(drafts.count)개를 가져왔다.\(skipped)\(notice)"
     }
 
-    private func upsert(_ drafts: [MomentDraft], keepingPeopleOfExisting: Bool, into context: ModelContext) throws {
+    private func upsert(_ drafts: [MomentDraft], droppingSourceIds droppedIds: Set<String>, keepingPeopleOfExisting: Bool, into context: ModelContext) throws {
         var moments = Dictionary(try context.fetch(FetchDescriptor<Moment>()).map { ($0.sourceId, $0) }, uniquingKeysWith: { first, _ in first })
+        // 뺀 캘린더의 일정으로 이미 들어와 있던 것은 지운다. 비게 된 Person은 사람 목록 화면이 숨긴다
+        for id in CalendarFilter.staleSourceIds(existing: Set(moments.keys), dropped: droppedIds) {
+            if let moment = moments.removeValue(forKey: id) { context.delete(moment) }
+        }
         var persons = Dictionary(try context.fetch(FetchDescriptor<Person>()).map { ($0.name, $0) }, uniquingKeysWith: { first, _ in first })
 
         for draft in drafts {

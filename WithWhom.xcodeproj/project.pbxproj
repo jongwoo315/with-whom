@@ -9,10 +9,12 @@
 /* Begin PBXBuildFile section */
 		2A2512971A96312A27997972 /* ContactsSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E815D9C9D10835B02A115732 /* ContactsSource.swift */; };
 		3922271E861988BB68180266 /* CalendarSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04435D538900E98855709E77 /* CalendarSource.swift */; };
+		3CE430CE952AEDCF742B2B4B /* CalendarFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE123391944D3C56D000D113 /* CalendarFilter.swift */; };
 		3D2F8D3F20BFF3154F0049AF /* PersonDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A979FB88F0A3D634AD2BAE /* PersonDictionary.swift */; };
 		595A5817688DAD19FEF9A39F /* Importer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0096DB0056047A6F30F40F8C /* Importer.swift */; };
 		5F6B46E24DC8AA2BB2B90C8E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61CD37CE1092043C9A4CD614 /* ContentView.swift */; };
 		6033C39E92DB3524C451FBAF /* WithWhomApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2CE98CA0DA21748D7CB072 /* WithWhomApp.swift */; };
+		656617B6FC22FF74BC6BCB4A /* CalendarPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96BC54DBADE9610D0DAA141 /* CalendarPickerView.swift */; };
 		663D735E6DFC6DABA138AEBA /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0BFC890B7B58D9C10416E2 /* Models.swift */; };
 		729124CBA6DAF70BA76E73CD /* TitleParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56044A39165F3D992E0EA138 /* TitleParser.swift */; };
 		88C06D531E95C52796D6E895 /* MomentBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE276765EAE165BE71297E5 /* MomentBuilder.swift */; };
@@ -30,6 +32,8 @@
 		AC0BFC890B7B58D9C10416E2 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		E722651F365ECCD055937238 /* WithWhom.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = WithWhom.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E815D9C9D10835B02A115732 /* ContactsSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsSource.swift; sourceTree = "<group>"; };
+		E96BC54DBADE9610D0DAA141 /* CalendarPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarPickerView.swift; sourceTree = "<group>"; };
+		EE123391944D3C56D000D113 /* CalendarFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarFilter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -53,6 +57,7 @@
 		7FCD163F9673BDD106E5B5D8 /* WithWhomCore */ = {
 			isa = PBXGroup;
 			children = (
+				EE123391944D3C56D000D113 /* CalendarFilter.swift */,
 				3FE276765EAE165BE71297E5 /* MomentBuilder.swift */,
 				97A979FB88F0A3D634AD2BAE /* PersonDictionary.swift */,
 				56044A39165F3D992E0EA138 /* TitleParser.swift */,
@@ -64,6 +69,7 @@
 		9F7E87ED154948836F05BD6A /* App */ = {
 			isa = PBXGroup;
 			children = (
+				E96BC54DBADE9610D0DAA141 /* CalendarPickerView.swift */,
 				04435D538900E98855709E77 /* CalendarSource.swift */,
 				E815D9C9D10835B02A115732 /* ContactsSource.swift */,
 				61CD37CE1092043C9A4CD614 /* ContentView.swift */,
@@ -130,6 +136,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3CE430CE952AEDCF742B2B4B /* CalendarFilter.swift in Sources */,
+				656617B6FC22FF74BC6BCB4A /* CalendarPickerView.swift in Sources */,
 				3922271E861988BB68180266 /* CalendarSource.swift in Sources */,
 				2A2512971A96312A27997972 /* ContactsSource.swift in Sources */,
 				5F6B46E24DC8AA2BB2B90C8E /* ContentView.swift in Sources */,

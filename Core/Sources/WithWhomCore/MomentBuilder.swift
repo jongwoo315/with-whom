@@ -6,13 +6,15 @@ public struct EventInput: Sendable, Equatable {
     public var start: Date
     public var end: Date
     public var isRecurring: Bool
+    public var calendarId: String
 
-    public init(id: String, title: String, start: Date, end: Date, isRecurring: Bool) {
+    public init(id: String, title: String, start: Date, end: Date, isRecurring: Bool, calendarId: String = "") {
         self.id = id
         self.title = title
         self.start = start
         self.end = end
         self.isRecurring = isRecurring
+        self.calendarId = calendarId
     }
 }
 

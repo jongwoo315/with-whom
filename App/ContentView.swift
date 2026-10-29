@@ -4,12 +4,17 @@ import SwiftUI
 struct ContentView: View {
     @Environment(\.modelContext) private var context
     @State private var importer = Importer()
+    @State private var showsCalendars = false
 
     var body: some View {
         TabView {
             tab("사람별", systemImage: "person.2") { PeopleView() }
             tab("날짜별", systemImage: "calendar") { DatesView() }
             tab("확인 필요", systemImage: "questionmark.circle") { ReviewView() }
+        }
+        // 시트를 닫으면 가져오기를 다시 돌려, 끈 캘린더의 일정이 바로 지워지게 한다
+        .sheet(isPresented: $showsCalendars, onDismiss: { Task { await importer.run(context: context) } }) {
+            CalendarPickerView()
         }
         #if DEBUG
         // 시뮬레이터에서 버튼 탭 없이 가져오기를 돌려 보려는 확인용: simctl launch ... -autoImport
@@ -31,6 +36,9 @@ struct ContentView: View {
                     }
                 }
                 .toolbar {
+                    ToolbarItem(placement: .topBarLeading) {
+                        Button("캘린더") { showsCalendars = true }
+                    }
                     ToolbarItem(placement: .primaryAction) {
                         Button("가져오기") { Task { await importer.run(context: context) } }
                             .disabled(importer.isRunning)
