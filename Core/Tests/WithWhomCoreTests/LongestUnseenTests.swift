@@ -69,6 +69,24 @@ struct LongestUnseenTests {
         #expect(pick([("가람", at(10, 30, 12))]) == nil)
     }
 
+    @Test("넘겨받은 calendar의 time zone으로 날짜를 센다")
+    func usesInjectedCalendarTimeZone() {
+        var utc = Calendar(identifier: .gregorian)
+        utc.timeZone = TimeZone(identifier: "UTC")!
+        let last = at(10, 30, 0, 30) // 서울 10-30 00:30 = UTC 10-29 15:30
+        #expect(LongestUnseen.pick([("가람", last)], now: at(10, 30, 9), calendar: Self.calendar)?.days == 0)
+        #expect(LongestUnseen.pick([("가람", last)], now: at(10, 30, 9), calendar: utc)?.days == 1)
+    }
+
+    @Test("서머타임으로 하루가 23시간이어도 날짜 차이로 센다")
+    func daylightSavingDay() {
+        var newYork = Calendar(identifier: .gregorian)
+        newYork.timeZone = TimeZone(identifier: "America/New_York")!
+        let last = newYork.date(from: DateComponents(year: 2026, month: 3, day: 7, hour: 12))!
+        let now = newYork.date(from: DateComponents(year: 2026, month: 3, day: 9, hour: 12))! // 3-8 02:00에 서머타임 시작
+        #expect(LongestUnseen.pick([("가람", last)], now: now, calendar: newYork)?.days == 2)
+    }
+
     @Test("가장 오래된 사람이 목록 가운데 있어도 고른다")
     func oldestInMiddle() {
         let result = pick([("나래", at(10, 20, 9)), ("가람", at(10, 1, 9)), ("다솜", at(10, 10, 9))])
