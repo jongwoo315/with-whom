@@ -55,6 +55,13 @@ struct LongestUnseenTests {
         #expect(result?.days == 29)
     }
 
+    @Test("같은 날이면 시각이 달라도 날 수가 같아 이름 순으로 고른다")
+    func tieIgnoresTimeOfDay() {
+        let result = pick([("다솜", at(10, 1, 8)), ("가람", at(10, 1, 23))])
+        #expect(result?.name == "가람")
+        #expect(result?.days == 29)
+    }
+
     @Test("가장 오래된 사람이 목록 가운데 있어도 고른다")
     func oldestInMiddle() {
         let result = pick([("나래", at(10, 20, 9)), ("가람", at(10, 1, 9)), ("다솜", at(10, 10, 9))])
