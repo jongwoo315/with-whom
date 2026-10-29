@@ -2,7 +2,7 @@ name: WithWhom
 options:
   bundleIdPrefix: com.jongwoo315
   deploymentTarget:
-    iOS: "26.0"
+    iOS: "17.0"
 targets:
   WithWhom:
     type: application
