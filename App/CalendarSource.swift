@@ -9,16 +9,24 @@ struct CalendarSource {
 
     static let excludedKey = "excludedCalendarIds"
 
+    static let knownKey = "knownCalendarIds"
+
     /// 뺀 캘린더 id. 저장된 값이 없으면 기본값 규칙을 쓴다.
+    /// 저장한 뒤에 새로 생긴 캘린더(휴일 캘린더를 새로 구독하거나 id가 바뀐 경우)도 기본값 규칙을 받는다.
     static func excludedIds(for calendars: [CalendarInfo]) -> Set<String> {
-        guard let saved = UserDefaults.standard.stringArray(forKey: excludedKey) else {
+        let defaults = UserDefaults.standard
+        guard let saved = defaults.stringArray(forKey: excludedKey) else {
             return CalendarFilter.defaultExcluded(calendars)
         }
-        return Set(saved)
+        guard let known = defaults.stringArray(forKey: knownKey) else { return Set(saved) }
+        let unseen = calendars.filter { !known.contains($0.id) }
+        return Set(saved).union(CalendarFilter.defaultExcluded(unseen))
     }
 
-    static func saveExcluded(_ ids: Set<String>) {
+    /// 선택과 함께 그때 보인 캘린더 id를 저장해, 다음에 새로 생긴 캘린더를 가려낸다.
+    static func saveExcluded(_ ids: Set<String>, calendars: [CalendarInfo]) {
         UserDefaults.standard.set(ids.sorted(), forKey: excludedKey)
+        UserDefaults.standard.set(calendars.map(\.id).sorted(), forKey: knownKey)
     }
 
     private func authorizedStore() async throws -> EKEventStore {

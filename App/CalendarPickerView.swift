@@ -44,7 +44,7 @@ struct CalendarPickerView: View {
             get: { !excluded.contains(calendar.id) },
             set: { isOn in
                 if isOn { excluded.remove(calendar.id) } else { excluded.insert(calendar.id) }
-                CalendarSource.saveExcluded(excluded)
+                CalendarSource.saveExcluded(excluded, calendars: calendars)
             }
         )
     }
