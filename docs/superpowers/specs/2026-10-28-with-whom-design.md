@@ -13,12 +13,16 @@
 | 얼굴 묶기 | 다음 버전 | 첫 버전의 「누구와」는 일정 제목과 직접 입력으로 채운다 |
 | 통화 기록 | 쓰지 않는다 | iOS가 지난 통화 기록을 앱에 주지 않는다 |
 | 제목 해석 방식 | A(규칙) 먼저, 다음에 B(기기 안 LLM) | 끝까지 도는 흐름을 먼저 만들고, 규칙이 놓친 수를 센 뒤 B를 붙일지 정한다 |
+| 앱 기술 | Swift + SwiftUI (React Native·Flutter 안 씀) | 입력이 전부 Apple 프레임워크다(EventKit·Contacts·PhotoKit·CoreLocation·Foundation Models). iOS 전용이라 크로스플랫폼의 이득인 Android를 쓰지 않는다 |
+| 최소 iOS | 17 (2026-10-29에 26에서 낮춤) | 지금 쓰는 API 중 가장 늦은 것이 iOS 17이다(SwiftData·`@Observable`·`requestFullAccessToEvents`). B는 그 부분만 iOS 26 이상 + Apple Intelligence 기기에서 켠다 |
 
 안 고른 것: 사진 묶음을 하루의 기준으로 삼는 방식. 사진 없이 만난 날(카페에서 얘기만 한 날)이 빠진다.
 
+안 고른 것: React Native·Flutter. 캘린더·연락처·사진은 플러그인(`expo-calendar`·`expo-contacts`·`expo-media-library`, Flutter `photo_manager`)으로 읽을 수 있지만, Foundation Models는 쓸 만한 플러그인이 없어 그 부분은 결국 Swift로 네이티브 모듈을 짜야 한다(2026-10-29 기준, 직접 확인하지 않았다). 실제 아이폰에 설치할 때 Xcode 서명이 필요한 것도 똑같다. Android로 낼 때 다시 본다.
+
 ## 1. 구조
 
-- iOS 앱 하나. SwiftUI + SwiftData, 서버 없음. 최소 iOS 26 (B에서 쓸 Foundation Models가 26부터다)
+- iOS 앱 하나. SwiftUI + SwiftData, 서버 없음. 최소 iOS 17 (위 표 「최소 iOS」)
 - 데이터 모델
 
 | 모델 | 필드 | 비고 |
