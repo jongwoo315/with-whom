@@ -28,8 +28,10 @@ public enum CalendarFilter {
     }
 
     /// 뺀 캘린더의 일정을 걸러 내고, 걸러 낸 일정 id를 같이 돌려준다.
+    /// 같은 id가 남긴 캘린더에도 있으면(초대받은 일정 등) 지우면 안 되므로 droppedIds에서 뺀다.
     public static func split(_ events: [EventInput], excluded: Set<String>) -> (kept: [EventInput], droppedIds: Set<String>) {
-        let dropped = events.filter { excluded.contains($0.calendarId) }
-        return (events.filter { !excluded.contains($0.calendarId) }, Set(dropped.map(\.id)))
+        let kept = events.filter { !excluded.contains($0.calendarId) }
+        let dropped = Set(events.filter { excluded.contains($0.calendarId) }.map(\.id))
+        return (kept, dropped.subtracting(kept.map(\.id)))
     }
 }

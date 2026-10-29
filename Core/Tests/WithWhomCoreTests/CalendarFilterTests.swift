@@ -33,6 +33,17 @@ struct CalendarFilterTests {
         #expect(dropped == ["b"])
     }
 
+    @Test("남긴 캘린더에도 있는 id는 droppedIds에 넣지 않는다")
+    func sharedIdIsNotDropped() {
+        let t = Date(timeIntervalSince1970: 1_780_000_000)
+        func event(_ calendarId: String) -> EventInput {
+            EventInput(id: "same", title: "same", start: t, end: t, isRecurring: false, calendarId: calendarId)
+        }
+        let (kept, dropped) = CalendarFilter.split([event("홈"), event("공휴일")], excluded: ["공휴일"])
+        #expect(kept.count == 1)
+        #expect(dropped.isEmpty)
+    }
+
     @Test("calendarId를 안 넘기는 기존 호출은 빈 문자열이다")
     func calendarIdDefault() {
         let t = Date(timeIntervalSince1970: 1_780_000_000)
