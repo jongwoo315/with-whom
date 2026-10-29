@@ -18,6 +18,7 @@
 		663D735E6DFC6DABA138AEBA /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0BFC890B7B58D9C10416E2 /* Models.swift */; };
 		729124CBA6DAF70BA76E73CD /* TitleParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56044A39165F3D992E0EA138 /* TitleParser.swift */; };
 		88C06D531E95C52796D6E895 /* MomentBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE276765EAE165BE71297E5 /* MomentBuilder.swift */; };
+		96F90C85D170CA3FC1798D5F /* LongestUnseen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E8E4768878CEB8B1F5B08C /* LongestUnseen.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,8 @@
 		56044A39165F3D992E0EA138 /* TitleParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleParser.swift; sourceTree = "<group>"; };
 		61CD37CE1092043C9A4CD614 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7AA9E5C44B1E8494EBFE01BA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		86070EDC53570C15D9246201 /* WithWhom.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WithWhom.entitlements; sourceTree = "<group>"; };
+		86E8E4768878CEB8B1F5B08C /* LongestUnseen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongestUnseen.swift; sourceTree = "<group>"; };
 		97A979FB88F0A3D634AD2BAE /* PersonDictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonDictionary.swift; sourceTree = "<group>"; };
 		AC0BFC890B7B58D9C10416E2 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		E722651F365ECCD055937238 /* WithWhom.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = WithWhom.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -58,6 +61,7 @@
 			isa = PBXGroup;
 			children = (
 				EE123391944D3C56D000D113 /* CalendarFilter.swift */,
+				86E8E4768878CEB8B1F5B08C /* LongestUnseen.swift */,
 				3FE276765EAE165BE71297E5 /* MomentBuilder.swift */,
 				97A979FB88F0A3D634AD2BAE /* PersonDictionary.swift */,
 				56044A39165F3D992E0EA138 /* TitleParser.swift */,
@@ -76,6 +80,7 @@
 				0096DB0056047A6F30F40F8C /* Importer.swift */,
 				7AA9E5C44B1E8494EBFE01BA /* Info.plist */,
 				AC0BFC890B7B58D9C10416E2 /* Models.swift */,
+				86070EDC53570C15D9246201 /* WithWhom.entitlements */,
 				4B2CE98CA0DA21748D7CB072 /* WithWhomApp.swift */,
 			);
 			path = App;
@@ -110,6 +115,9 @@
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
+					BF86CCF54E8CBA67BDD6531B = {
+						SystemCapabilities = "[\"com.apple.ApplicationGroups.iOS\": [\"enabled\": 1]]";
+					};
 				};
 			};
 			buildConfigurationList = A0363F0F2662C97AD3172FA7 /* Build configuration list for PBXProject "WithWhom" */;
@@ -142,6 +150,7 @@
 				2A2512971A96312A27997972 /* ContactsSource.swift in Sources */,
 				5F6B46E24DC8AA2BB2B90C8E /* ContentView.swift in Sources */,
 				595A5817688DAD19FEF9A39F /* Importer.swift in Sources */,
+				96F90C85D170CA3FC1798D5F /* LongestUnseen.swift in Sources */,
 				663D735E6DFC6DABA138AEBA /* Models.swift in Sources */,
 				88C06D531E95C52796D6E895 /* MomentBuilder.swift in Sources */,
 				3D2F8D3F20BFF3154F0049AF /* PersonDictionary.swift in Sources */,
@@ -220,6 +229,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = App/WithWhom.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = App/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -237,6 +247,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = App/WithWhom.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = App/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

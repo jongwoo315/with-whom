@@ -32,3 +32,15 @@ final class Person {
         self.name = name
     }
 }
+
+/// 앱과 위젯이 같은 저장 파일을 쓰려고 App Group 폴더에 컨테이너를 만든다.
+enum SharedStore {
+    static let groupId = "group.com.jongwoo315.withwhom"
+
+    static func makeContainer() throws -> ModelContainer {
+        try ModelContainer(
+            for: Moment.self, Person.self,
+            configurations: ModelConfiguration(groupContainer: .identifier(groupId))
+        )
+    }
+}
