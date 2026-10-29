@@ -31,13 +31,16 @@ struct UnseenProvider: TimelineProvider {
     /// 컨테이너를 못 만들거나 읽지 못하면 nil → 「아직 만난 사람이 없다」 화면
     private static func load(now: Date) -> (name: String, days: Int)? {
         guard let container = try? SharedStore.makeContainer() else { return nil }
-        let context = ModelContext(container)
-        guard let people = try? context.fetch(FetchDescriptor<Person>()) else { return nil }
-        let lastSeen: [(name: String, last: Date)] = people.compactMap { person in
-            guard let last = person.moments.map(\.start).filter({ $0 <= now }).max() else { return nil }
-            return (name: person.name, last: last)
+        // context는 container를 붙잡지 않으므로 읽는 동안 container를 살려 둔다
+        return withExtendedLifetime(container) {
+            let context = ModelContext(container)
+            guard let people = try? context.fetch(FetchDescriptor<Person>()) else { return nil }
+            let lastSeen: [(name: String, last: Date)] = people.compactMap { person in
+                guard let last = person.moments.map(\.start).filter({ $0 <= now }).max() else { return nil }
+                return (name: person.name, last: last)
+            }
+            return LongestUnseen.pick(lastSeen, now: now, calendar: .current)
         }
-        return LongestUnseen.pick(lastSeen, now: now, calendar: .current)
     }
 }
 
