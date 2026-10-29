@@ -20,6 +20,8 @@ targets:
         UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
         NSCalendarsFullAccessUsageDescription: 일정 제목에서 누구와 언제 무엇을 했는지 뽑으려고 캘린더를 읽는다.
         NSContactsUsageDescription: 일정 제목에 나온 이름이 누구인지 알아보려고 연락처의 이름을 읽는다.
+    dependencies:
+      - target: WithWhomWidget
     entitlements:
       path: App/WithWhom.entitlements
       properties:
@@ -31,5 +33,31 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.jongwoo315.withwhom
+        SWIFT_VERSION: "5.0"
+        TARGETED_DEVICE_FAMILY: "1"
+  WithWhomWidget:
+    type: app-extension
+    platform: iOS
+    sources:
+      - Widget
+      - App/Models.swift
+      - Core/Sources/WithWhomCore
+    info:
+      path: Widget/Info.plist
+      properties:
+        CFBundleDisplayName: 함께
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+    entitlements:
+      path: Widget/WithWhomWidget.entitlements
+      properties:
+        com.apple.security.application-groups: [group.com.jongwoo315.withwhom]
+    attributes:
+      SystemCapabilities:
+        com.apple.ApplicationGroups.iOS:
+          enabled: 1
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.jongwoo315.withwhom.widget
         SWIFT_VERSION: "5.0"
         TARGETED_DEVICE_FAMILY: "1"
