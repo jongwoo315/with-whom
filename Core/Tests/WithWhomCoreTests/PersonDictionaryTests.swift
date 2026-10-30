@@ -93,6 +93,13 @@ struct PersonDictionaryTests {
         }
     }
 
+    @Test("빈 낱말이나 빈 이름의 별칭은 사전에 들어가지 않는다")
+    func emptyAliasIgnored() {
+        let d = PersonDictionary(contacts: [], aliases: ["": "x", "자기": ""])
+        #expect(d.person(forToken: "") == nil)
+        #expect(d.person(forToken: "자기") == nil)
+    }
+
     @Test("공백·쉼표가 든 별칭 낱말은 저장할 수 없다", arguments: [("가람", true), ("김 가람", false), ("a,b", false), ("", false)])
     func aliasKeyValidity(token: String, expected: Bool) {
         #expect(PersonDictionary.isValidAliasKey(token) == expected)
