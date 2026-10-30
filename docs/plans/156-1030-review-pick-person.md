@@ -49,3 +49,4 @@
 - 리뷰 fix 5개를 `git push` 한 번으로 올렸다(`fb98d2e..a0c644e`)
 - fix 후 `cd Core && swift test` 62개 통과, 앱 `xcodebuild` `BUILD SUCCEEDED`
 - 시뮬레이터 실행(`BOOT_OK`)과 SwiftData 저장 경로 실행은 이 세션에서 하지 않았다
+- 인라인 스레드 2건은 올리지 못했다(HTTP 422 `line could not be resolved`): 지적 8(`App/Importer.swift:144`)과 지적 9(`App/Importer.swift:36`). 두 줄이 이 PR의 diff 밖(`main`에 이미 있던 줄)이라 GitHub이 줄을 못 찾았다. 처리 이유는 위 표와 요약 코멘트에 적혀 있다
