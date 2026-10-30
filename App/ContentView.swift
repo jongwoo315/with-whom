@@ -10,7 +10,7 @@ struct ContentView: View {
         TabView {
             tab("사람별", systemImage: "person.2") { PeopleView() }
             tab("날짜별", systemImage: "calendar") { DatesView() }
-            tab("확인 필요", systemImage: "questionmark.circle") { ReviewView() }
+            tab("확인 필요", systemImage: "questionmark.circle") { ReviewView(importer: importer) }
         }
         // 시트를 닫으면 가져오기를 다시 돌려, 끈 캘린더의 일정이 바로 지워지게 한다
         .sheet(isPresented: $showsCalendars, onDismiss: { Task { await importer.run(context: context) } }) {
@@ -89,11 +89,17 @@ struct DatesView: View {
 }
 
 struct ReviewView: View {
+    let importer: Importer
     @Query(filter: #Predicate<Moment> { $0.needsReview }, sort: \Moment.start, order: .reverse)
     private var moments: [Moment]
+    @State private var picked: Moment?
 
     var body: some View {
-        List(moments) { MomentRow(moment: $0) }
-            .overlay { if moments.isEmpty { ContentUnavailableView("확인할 일정이 없다", systemImage: "checkmark.circle") } }
+        List(moments) { moment in
+            Button { picked = moment } label: { MomentRow(moment: moment) }
+                .foregroundStyle(.primary)
+        }
+        .sheet(item: $picked) { PickPersonView(moment: $0, importer: importer) }
+        .overlay { if moments.isEmpty { ContentUnavailableView("확인할 일정이 없다", systemImage: "checkmark.circle") } }
     }
 }
