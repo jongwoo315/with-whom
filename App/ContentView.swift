@@ -99,7 +99,7 @@ struct ReviewView: View {
             Button { picked = moment } label: { MomentRow(moment: moment) }
                 .foregroundStyle(.primary)
         }
-        .sheet(item: $picked) { PickPersonView(moment: $0, importer: importer) }
+        .sheet(item: $picked) { PickPersonView(title: $0.title, importer: importer) }
         .overlay { if moments.isEmpty { ContentUnavailableView("확인할 일정이 없다", systemImage: "checkmark.circle") } }
     }
 }

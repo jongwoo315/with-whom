@@ -42,7 +42,9 @@ final class Importer {
         let (kept, droppedIds) = CalendarFilter.split(events, excluded: excluded)
         let drafts: [MomentDraft]
         do {
-            drafts = MomentBuilder.build(kept, dictionary: try Self.dictionary(contacts: contacts, in: context))
+            // 연락처를 못 읽으면 별칭만 든 사전이 이름 일부만 찾아 반쯤 풀린 일정을 만든다. 빈 사전으로 확인 필요에 보낸다
+            let dictionary = contactsLoaded ? try Self.dictionary(contacts: contacts, in: context) : PersonDictionary(contacts: [])
+            drafts = MomentBuilder.build(kept, dictionary: dictionary)
             try upsert(drafts, droppingSourceIds: droppedIds, keepingPeopleOfExisting: !contactsLoaded, into: context)
         } catch {
             context.rollback()

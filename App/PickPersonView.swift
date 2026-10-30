@@ -6,7 +6,8 @@ import WithWhomCore
 
 /// 확인 필요 일정의 제목에서 낱말 하나를 골라 어느 사람인지 정하는 화면. 저장하면 별칭이 들어가고 저장된 일정이 다시 해석된다.
 struct PickPersonView: View {
-    let moment: Moment
+    /// 시트가 열려 있는 동안 일정이 지워져도 읽을 수 있게 값으로 받는다
+    let title: String
     let importer: Importer
 
     @Environment(\.dismiss) private var dismiss
@@ -29,10 +30,10 @@ struct PickPersonView: View {
         NavigationStack {
             Form {
                 Section("일정 제목") {
-                    Text(moment.title)
+                    Text(title)
                 }
                 Section("어느 낱말인가") {
-                    ForEach(TitleParser.tokens(moment.title), id: \.self) { token in
+                    ForEach(TitleParser.tokens(title), id: \.self) { token in
                         Button {
                             alias = PersonDictionary.baseForm(token)
                         } label: {
@@ -47,7 +48,8 @@ struct PickPersonView: View {
                     TextField("별칭", text: $alias)
                 }
                 Section("누구인가") {
-                    ForEach(people) { person in
+                    // 일정이 모두 지워져 사람 목록 화면이 숨기는 사람은 고를 수 없게 같이 숨긴다
+                    ForEach(people.filter { !$0.moments.isEmpty }) { person in
                         Button {
                             existingName = person.name
                         } label: {
