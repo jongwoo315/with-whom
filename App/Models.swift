@@ -33,13 +33,25 @@ final class Person {
     }
 }
 
+/// 사용자가 확인 필요에서 직접 고른 낱말 → 사람. 가져오기로 다시 만들 수 없는 데이터다.
+@Model
+final class Alias {
+    @Attribute(.unique) var token: String
+    var personName: String
+
+    init(token: String, personName: String) {
+        self.token = token
+        self.personName = personName
+    }
+}
+
 /// 앱과 위젯이 같은 저장 파일을 쓰려고 App Group 폴더에 컨테이너를 만든다.
 enum SharedStore {
     static let groupId = "group.com.jongwoo315.withwhom"
 
     static func makeContainer() throws -> ModelContainer {
         try ModelContainer(
-            for: Moment.self, Person.self,
+            for: Moment.self, Person.self, Alias.self,
             configurations: ModelConfiguration(groupContainer: .identifier(groupId))
         )
     }

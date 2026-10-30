@@ -46,4 +46,19 @@ struct MomentBuilderTests {
         #expect(draft.start == late)
         #expect(draft.end == late.addingTimeInterval(1800))
     }
+
+    @Test("별칭을 넣으면 같은 제목이 확인 필요에서 풀린다")
+    func interpretAfterAlias() {
+        let before = MomentBuilder.interpret("자기 🤍 - 북엇국", dictionary: dict)
+        #expect(before.needsReview && before.people.isEmpty && before.items.count == 1)
+        let withAlias = PersonDictionary(contacts: [Contact(given: "가람", family: "김")], aliases: ["자기": "다솜"])
+        let after = MomentBuilder.interpret("자기 🤍 - 북엇국", dictionary: withAlias)
+        #expect(!after.needsReview && after.people == ["다솜"] && after.items == ["북엇국"])
+    }
+
+    @Test("별칭이 없는 낱말의 제목은 사전이 바뀌어도 그대로다")
+    func interpretUnrelatedTitle() {
+        let withAlias = PersonDictionary(contacts: [Contact(given: "가람", family: "김")], aliases: ["자기": "다솜"])
+        #expect(MomentBuilder.interpret("헤어컷", dictionary: withAlias) == MomentBuilder.interpret("헤어컷", dictionary: dict))
+    }
 }

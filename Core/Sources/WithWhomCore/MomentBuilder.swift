@@ -30,6 +30,14 @@ public struct MomentDraft: Sendable, Equatable {
 }
 
 public enum MomentBuilder {
+    /// 제목 하나를 사전으로 해석한 결과. 가져오기와 저장된 일정 다시 해석이 같이 쓴다.
+    public static func interpret(_ title: String, dictionary: PersonDictionary) -> (people: Set<String>, items: [String], needsReview: Bool) {
+        switch TitleParser.parse(title, dictionary: dictionary) {
+        case .auto(let people, let items): return (people, items, false)
+        case .review(let items): return ([], items, true)
+        }
+    }
+
     /// 반복 일정을 빼고, 같은 id는 먼저 온 것만 남기고, 제목을 해석해 초안을 만든다.
     public static func build(
         _ events: [EventInput],
@@ -39,11 +47,7 @@ public enum MomentBuilder {
         var seen = Set<String>()
         return events.compactMap { event in
             guard !event.isRecurring, seen.insert(event.id).inserted else { return nil }
-            let people: Set<String>, items: [String], needsReview: Bool
-            switch TitleParser.parse(event.title, dictionary: dictionary) {
-            case .auto(let p, let i): (people, items, needsReview) = (p, i, false)
-            case .review(let i): (people, items, needsReview) = ([], i, true)
-            }
+            let (people, items, needsReview) = interpret(event.title, dictionary: dictionary)
             return MomentDraft(
                 sourceId: event.id, date: calendar.startOfDay(for: event.start),
                 start: event.start, end: event.end, title: event.title,
