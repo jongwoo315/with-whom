@@ -124,6 +124,19 @@ struct TitleParserTests {
         #expect(TitleParser.parse("아가 병원", dictionary: d) == .auto(people: ["다솜"], items: ["병원"]))
     }
 
+    @Test("화면에서 고른 낱말의 baseForm을 별칭으로 넣으면 그 제목이 풀린다",
+          arguments: ["가람이랑 영화", "자기 🤍 - 북엇국, 호머 맥주", "엄마가 - 생일", "한결씨 점심"])
+    func pickedTokenResolvesTitle(title: String) {
+        for token in TitleParser.tokens(title) {
+            let d = PersonDictionary(contacts: [], aliases: [PersonDictionary.baseForm(token): "다솜"])
+            guard case .auto(let people, _) = TitleParser.parse(title, dictionary: d) else {
+                Issue.record("낱말 \(token)을 별칭으로 넣었는데 \(title)이 풀리지 않았다")
+                continue
+            }
+            #expect(people.contains("다솜"))
+        }
+    }
+
     @Test("tokens는 parse와 같은 규칙으로 낱말을 나눈다")
     func tokens() {
         #expect(TitleParser.tokens("가람이 🤍 - 북엇국, 호머 맥주") == ["가람이", "북엇국", "호머", "맥주"])
