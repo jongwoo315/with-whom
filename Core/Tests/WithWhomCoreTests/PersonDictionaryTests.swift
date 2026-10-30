@@ -62,4 +62,39 @@ struct PersonDictionaryTests {
         #expect(dict.person(forToken: "이") == nil)
         #expect(dict.person(forToken: "") == nil)
     }
+
+    @Test("연락처 없이 별칭만으로 찾고 접미사도 뗀다")
+    func aliasOnly() {
+        let dict = PersonDictionary(contacts: [], aliases: ["가람": "가람"])
+        #expect(dict.person(forToken: "가람이") == "가람")
+        #expect(dict.person(forToken: "가람이랑") == "가람")
+    }
+
+    @Test("별칭의 대표 이름은 낱말과 달라도 된다")
+    func aliasDifferentName() {
+        let dict = PersonDictionary(contacts: [], aliases: ["자기": "다솜"])
+        #expect(dict.person(forToken: "자기") == "다솜")
+    }
+
+    @Test("같은 키가 연락처와 별칭에 다 있으면 별칭이 우선한다")
+    func aliasWins() {
+        let dict = PersonDictionary(contacts: [Contact(given: "나래", family: "")], aliases: ["나래": "다솜"])
+        #expect(dict.person(forToken: "나래") == "다솜")
+        #expect(dict.person(forToken: "나래랑") == "다솜")
+    }
+
+    @Test("별칭이 없으면 연락처만 쓴 사전과 같다")
+    func noAliasesSameAsBefore() {
+        let contacts = [Contact(given: "가람", family: "김")]
+        let plain = PersonDictionary(contacts: contacts)
+        let withEmpty = PersonDictionary(contacts: contacts, aliases: [:])
+        for token in ["가람", "김가람", "가람이랑", "수민", "이", ""] {
+            #expect(plain.person(forToken: token) == withEmpty.person(forToken: token))
+        }
+    }
+
+    @Test("baseForm은 접미사 하나를 뗀다", arguments: [("가람이랑", "가람"), ("엄마", "엄마"), ("이", "이"), ("랑", "랑"), ("한결씨", "한결")])
+    func baseForm(token: String, expected: String) {
+        #expect(PersonDictionary.baseForm(token) == expected)
+    }
 }

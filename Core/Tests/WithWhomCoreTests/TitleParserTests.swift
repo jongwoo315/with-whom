@@ -95,4 +95,36 @@ struct TitleParserTests {
     func emptyTitle() {
         #expect(TitleParser.parse("  🤍 ", dictionary: dict) == .review(items: []))
     }
+
+    @Test("별칭 사전으로 연인 호칭 꼴을 푼다")
+    func aliasTitle() {
+        let aliasDict = PersonDictionary(contacts: [], aliases: ["가람": "가람"])
+        #expect(TitleParser.parse("가람이 🤍 - 북엇국, 호머", dictionary: aliasDict)
+            == .auto(people: ["가람"], items: ["북엇국", "호머"]))
+        #expect(TitleParser.parse("가람이랑 영화", dictionary: aliasDict)
+            == .auto(people: ["가람"], items: ["영화"]))
+    }
+
+    @Test("연락처와 별칭이 겹치면 별칭의 사람이 붙는다")
+    func aliasOverridesContact() {
+        let d = PersonDictionary(contacts: [Contact(given: "나래", family: "")], aliases: ["나래": "다솜"])
+        #expect(TitleParser.parse("나래 점심", dictionary: d) == .auto(people: ["다솜"], items: ["점심"]))
+    }
+
+    @Test("붙여 쓴 낱말 일부는 별칭으로 안 잡힌다")
+    func attachedWordNotCaught() {
+        let d = PersonDictionary(contacts: [], aliases: ["엄마": "엄마"])
+        #expect(TitleParser.parse("엄마생일", dictionary: d) == .review(items: ["엄마생일"]))
+    }
+
+    @Test("tokens는 parse와 같은 규칙으로 낱말을 나눈다")
+    func tokens() {
+        #expect(TitleParser.tokens("가람이 🤍 - 북엇국, 호머 맥주") == ["가람이", "북엇국", "호머", "맥주"])
+    }
+
+    @Test("tokens는 중복을 빼고 순서를 지킨다")
+    func tokensDedupe() {
+        #expect(TitleParser.tokens("가람 - 가람, 영화 가람") == ["가람", "영화"])
+        #expect(TitleParser.tokens("  🤍 ") == [])
+    }
 }
