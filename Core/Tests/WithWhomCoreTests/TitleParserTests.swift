@@ -117,6 +117,13 @@ struct TitleParserTests {
         #expect(TitleParser.parse("엄마생일", dictionary: d) == .review(items: ["엄마생일"]))
     }
 
+    @Test("한 글자 별칭이 만들어지지 않아 다른 낱말까지 잡지 않는다")
+    func pickedAliasNotOverMatching() {
+        let d = PersonDictionary(contacts: [], aliases: [PersonDictionary.baseForm("아가"): "다솜"])
+        #expect(TitleParser.parse("아이 생일", dictionary: d) == .review(items: ["아이 생일"]))
+        #expect(TitleParser.parse("아가 병원", dictionary: d) == .auto(people: ["다솜"], items: ["병원"]))
+    }
+
     @Test("tokens는 parse와 같은 규칙으로 낱말을 나눈다")
     func tokens() {
         #expect(TitleParser.tokens("가람이 🤍 - 북엇국, 호머 맥주") == ["가람이", "북엇국", "호머", "맥주"])

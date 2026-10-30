@@ -29,9 +29,10 @@ public struct PersonDictionary: Sendable {
         self.names = names
     }
 
-    /// 끝의 접미사를 하나 뗀 꼴. 떼고 남는 글자가 없으면 그대로 돌려준다.
+    /// 끝의 접미사를 하나 뗀 꼴. 떼고 남는 글자가 2글자보다 적으면 그 접미사는 건너뛰고 다음 접미사를 본다.
+    /// 한 글자만 남기면 `아이`→`아`가 돼, 별칭 `아`가 `아가`·`아님` 같은 다른 낱말까지 잡는다.
     public static func baseForm(_ token: String) -> String {
-        for suffix in suffixes where token.hasSuffix(suffix) && token.count > suffix.count {
+        for suffix in suffixes where token.hasSuffix(suffix) && token.count - suffix.count >= 2 {
             return String(token.dropLast(suffix.count))
         }
         return token

@@ -93,7 +93,7 @@ struct PersonDictionaryTests {
         }
     }
 
-    @Test("baseForm은 접미사 하나를 뗀다", arguments: [("가람이랑", "가람"), ("엄마", "엄마"), ("이", "이"), ("랑", "랑"), ("한결씨", "한결")])
+    @Test("baseForm은 접미사 하나를 뗀다", arguments: [("가람이랑", "가람"), ("엄마", "엄마"), ("이", "이"), ("랑", "랑"), ("한결씨", "한결"), ("아이", "아이"), ("아가", "아가"), ("이랑", "이랑"), ("가람이", "가람")])
     func baseForm(token: String, expected: String) {
         #expect(PersonDictionary.baseForm(token) == expected)
     }
