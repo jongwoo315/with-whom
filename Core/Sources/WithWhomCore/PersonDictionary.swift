@@ -29,6 +29,11 @@ public struct PersonDictionary: Sendable {
         self.names = names
     }
 
+    /// 별칭 낱말로 저장할 수 있는지. 제목은 공백과 쉼표에서 나뉘므로 그런 글자가 든 낱말은 어떤 제목에서도 안 잡힌다.
+    public static func isValidAliasKey(_ token: String) -> Bool {
+        !token.isEmpty && !token.contains { $0 == "," || $0.isWhitespace }
+    }
+
     /// 끝의 접미사를 하나 뗀 꼴. 떼고 남는 글자가 2글자보다 적으면 그 접미사는 건너뛰고 다음 접미사를 본다.
     /// 한 글자만 남기면 `아이`→`아`가 돼, 별칭 `아`가 `아가`·`아님` 같은 다른 낱말까지 잡는다.
     public static func baseForm(_ token: String) -> String {

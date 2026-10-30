@@ -93,6 +93,11 @@ struct PersonDictionaryTests {
         }
     }
 
+    @Test("공백·쉼표가 든 별칭 낱말은 저장할 수 없다", arguments: [("가람", true), ("김 가람", false), ("a,b", false), ("", false)])
+    func aliasKeyValidity(token: String, expected: Bool) {
+        #expect(PersonDictionary.isValidAliasKey(token) == expected)
+    }
+
     @Test("baseForm은 접미사 하나를 뗀다", arguments: [("가람이랑", "가람"), ("엄마", "엄마"), ("이", "이"), ("랑", "랑"), ("한결씨", "한결"), ("아이", "아이"), ("아가", "아가"), ("이랑", "이랑"), ("가람이", "가람")])
     func baseForm(token: String, expected: String) {
         #expect(PersonDictionary.baseForm(token) == expected)

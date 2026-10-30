@@ -69,7 +69,11 @@ final class Importer {
 
         let token = token.trimmingCharacters(in: .whitespacesAndNewlines)
         let personName = personName.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !token.isEmpty, !personName.isEmpty else { return }
+        guard !personName.isEmpty else { return }
+        guard PersonDictionary.isValidAliasKey(token) else {
+            message = "별칭 \(token)은 공백이나 쉼표가 들어 있어 저장하지 않았다. 제목의 낱말 하나만 쓸 수 있다."
+            return
+        }
 
         do {
             if let alias = try context.fetch(FetchDescriptor<Alias>(predicate: #Predicate { $0.token == token })).first {

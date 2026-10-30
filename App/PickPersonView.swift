@@ -24,7 +24,7 @@ struct PickPersonView: View {
         (isNewPerson ? (newName ?? alias) : existingName ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
     }
     private var trimmedAlias: String { alias.trimmingCharacters(in: .whitespacesAndNewlines) }
-    private var canSave: Bool { !trimmedAlias.isEmpty && !personName.isEmpty && !isSaving }
+    private var canSave: Bool { PersonDictionary.isValidAliasKey(trimmedAlias) && !personName.isEmpty && !isSaving }
 
     var body: some View {
         NavigationStack {
