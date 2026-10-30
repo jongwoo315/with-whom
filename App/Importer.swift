@@ -1,6 +1,7 @@
 import Foundation
 import Observation
 import SwiftData
+import WidgetKit
 #if canImport(WithWhomCore)
 import WithWhomCore
 #endif
@@ -47,6 +48,7 @@ final class Importer {
             message = "저장하지 못했다: \(error.localizedDescription)"
             return
         }
+        WidgetCenter.shared.reloadAllTimelines()
         let skipped = droppedIds.isEmpty ? "" : " 뺀 캘린더 일정 \(droppedIds.count)개는 넣지 않았다."
         message = "일정 \(drafts.count)개를 가져왔다.\(skipped)\(notice)"
     }

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2A2512971A96312A27997972 /* ContactsSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E815D9C9D10835B02A115732 /* ContactsSource.swift */; };
+		2AF6B17EAE5C1C62B7F5230F /* LongestUnseen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E8E4768878CEB8B1F5B08C /* LongestUnseen.swift */; };
 		3922271E861988BB68180266 /* CalendarSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04435D538900E98855709E77 /* CalendarSource.swift */; };
 		3CE430CE952AEDCF742B2B4B /* CalendarFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE123391944D3C56D000D113 /* CalendarFilter.swift */; };
 		3D2F8D3F20BFF3154F0049AF /* PersonDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A979FB88F0A3D634AD2BAE /* PersonDictionary.swift */; };
@@ -16,18 +17,56 @@
 		6033C39E92DB3524C451FBAF /* WithWhomApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2CE98CA0DA21748D7CB072 /* WithWhomApp.swift */; };
 		656617B6FC22FF74BC6BCB4A /* CalendarPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96BC54DBADE9610D0DAA141 /* CalendarPickerView.swift */; };
 		663D735E6DFC6DABA138AEBA /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0BFC890B7B58D9C10416E2 /* Models.swift */; };
+		6770B0304D65260FED985542 /* WithWhomWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716137632AD7AA7D29C988D8 /* WithWhomWidget.swift */; };
+		6CEDD12A9892180B867DAFC3 /* PersonDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A979FB88F0A3D634AD2BAE /* PersonDictionary.swift */; };
 		729124CBA6DAF70BA76E73CD /* TitleParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56044A39165F3D992E0EA138 /* TitleParser.swift */; };
 		88C06D531E95C52796D6E895 /* MomentBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE276765EAE165BE71297E5 /* MomentBuilder.swift */; };
+		96F90C85D170CA3FC1798D5F /* LongestUnseen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E8E4768878CEB8B1F5B08C /* LongestUnseen.swift */; };
+		9DE8390F65C7175FD53978CC /* MomentBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE276765EAE165BE71297E5 /* MomentBuilder.swift */; };
+		A3C449F5BD39C71AA000DCAB /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0BFC890B7B58D9C10416E2 /* Models.swift */; };
+		CCCC1A3F36B805D44E9DC865 /* TitleParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56044A39165F3D992E0EA138 /* TitleParser.swift */; };
+		DFE079970455D4023A934601 /* WithWhomWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 12B942D02E8FF97E20CE6265 /* WithWhomWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		E17AF4CCD5B843A656A8FBB5 /* CalendarFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE123391944D3C56D000D113 /* CalendarFilter.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		704525E7C7D0B124DC04C6F0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 338E82630C673DFDFF982413 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 246CBF4619157B9D8419F87D;
+			remoteInfo = WithWhomWidget;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		EEB458423FA07474364F2C89 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				DFE079970455D4023A934601 /* WithWhomWidget.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0096DB0056047A6F30F40F8C /* Importer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Importer.swift; sourceTree = "<group>"; };
 		04435D538900E98855709E77 /* CalendarSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarSource.swift; sourceTree = "<group>"; };
+		12B942D02E8FF97E20CE6265 /* WithWhomWidget.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = WithWhomWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		28FA8B14995E325745BBD8B9 /* WithWhomWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WithWhomWidget.entitlements; sourceTree = "<group>"; };
+		346D66692FA2F9485620811D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		3FE276765EAE165BE71297E5 /* MomentBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentBuilder.swift; sourceTree = "<group>"; };
 		4B2CE98CA0DA21748D7CB072 /* WithWhomApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithWhomApp.swift; sourceTree = "<group>"; };
 		56044A39165F3D992E0EA138 /* TitleParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleParser.swift; sourceTree = "<group>"; };
 		61CD37CE1092043C9A4CD614 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		716137632AD7AA7D29C988D8 /* WithWhomWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithWhomWidget.swift; sourceTree = "<group>"; };
 		7AA9E5C44B1E8494EBFE01BA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		86070EDC53570C15D9246201 /* WithWhom.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WithWhom.entitlements; sourceTree = "<group>"; };
+		86E8E4768878CEB8B1F5B08C /* LongestUnseen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongestUnseen.swift; sourceTree = "<group>"; };
 		97A979FB88F0A3D634AD2BAE /* PersonDictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonDictionary.swift; sourceTree = "<group>"; };
 		AC0BFC890B7B58D9C10416E2 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		E722651F365ECCD055937238 /* WithWhom.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = WithWhom.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -41,6 +80,7 @@
 			isa = PBXGroup;
 			children = (
 				9F7E87ED154948836F05BD6A /* App */,
+				C627A436DCFA954DFEE7BF61 /* Widget */,
 				7FCD163F9673BDD106E5B5D8 /* WithWhomCore */,
 				294DAF721EAD174DF7105695 /* Products */,
 			);
@@ -50,6 +90,7 @@
 			isa = PBXGroup;
 			children = (
 				E722651F365ECCD055937238 /* WithWhom.app */,
+				12B942D02E8FF97E20CE6265 /* WithWhomWidget.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -58,6 +99,7 @@
 			isa = PBXGroup;
 			children = (
 				EE123391944D3C56D000D113 /* CalendarFilter.swift */,
+				86E8E4768878CEB8B1F5B08C /* LongestUnseen.swift */,
 				3FE276765EAE165BE71297E5 /* MomentBuilder.swift */,
 				97A979FB88F0A3D634AD2BAE /* PersonDictionary.swift */,
 				56044A39165F3D992E0EA138 /* TitleParser.swift */,
@@ -76,23 +118,53 @@
 				0096DB0056047A6F30F40F8C /* Importer.swift */,
 				7AA9E5C44B1E8494EBFE01BA /* Info.plist */,
 				AC0BFC890B7B58D9C10416E2 /* Models.swift */,
+				86070EDC53570C15D9246201 /* WithWhom.entitlements */,
 				4B2CE98CA0DA21748D7CB072 /* WithWhomApp.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
 		};
+		C627A436DCFA954DFEE7BF61 /* Widget */ = {
+			isa = PBXGroup;
+			children = (
+				346D66692FA2F9485620811D /* Info.plist */,
+				28FA8B14995E325745BBD8B9 /* WithWhomWidget.entitlements */,
+				716137632AD7AA7D29C988D8 /* WithWhomWidget.swift */,
+			);
+			path = Widget;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		246CBF4619157B9D8419F87D /* WithWhomWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4F346AB8A58E597D4B5EA241 /* Build configuration list for PBXNativeTarget "WithWhomWidget" */;
+			buildPhases = (
+				E8A5EEDAAB80A7B62FD78A7F /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WithWhomWidget;
+			packageProductDependencies = (
+			);
+			productName = WithWhomWidget;
+			productReference = 12B942D02E8FF97E20CE6265 /* WithWhomWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		BF86CCF54E8CBA67BDD6531B /* WithWhom */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = FB2A0788F5101A28A59DD87C /* Build configuration list for PBXNativeTarget "WithWhom" */;
 			buildPhases = (
 				FBF7057445B408C87F442BF0 /* Sources */,
+				EEB458423FA07474364F2C89 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				2E82249E89FD088E24AB0AFB /* PBXTargetDependency */,
 			);
 			name = WithWhom;
 			packageProductDependencies = (
@@ -110,6 +182,12 @@
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
+					246CBF4619157B9D8419F87D = {
+						SystemCapabilities = "[\"com.apple.ApplicationGroups.iOS\": [\"enabled\": 1]]";
+					};
+					BF86CCF54E8CBA67BDD6531B = {
+						SystemCapabilities = "[\"com.apple.ApplicationGroups.iOS\": [\"enabled\": 1]]";
+					};
 				};
 			};
 			buildConfigurationList = A0363F0F2662C97AD3172FA7 /* Build configuration list for PBXProject "WithWhom" */;
@@ -127,11 +205,26 @@
 			projectRoot = "";
 			targets = (
 				BF86CCF54E8CBA67BDD6531B /* WithWhom */,
+				246CBF4619157B9D8419F87D /* WithWhomWidget */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
+		E8A5EEDAAB80A7B62FD78A7F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E17AF4CCD5B843A656A8FBB5 /* CalendarFilter.swift in Sources */,
+				2AF6B17EAE5C1C62B7F5230F /* LongestUnseen.swift in Sources */,
+				A3C449F5BD39C71AA000DCAB /* Models.swift in Sources */,
+				9DE8390F65C7175FD53978CC /* MomentBuilder.swift in Sources */,
+				6CEDD12A9892180B867DAFC3 /* PersonDictionary.swift in Sources */,
+				CCCC1A3F36B805D44E9DC865 /* TitleParser.swift in Sources */,
+				6770B0304D65260FED985542 /* WithWhomWidget.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FBF7057445B408C87F442BF0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -142,6 +235,7 @@
 				2A2512971A96312A27997972 /* ContactsSource.swift in Sources */,
 				5F6B46E24DC8AA2BB2B90C8E /* ContentView.swift in Sources */,
 				595A5817688DAD19FEF9A39F /* Importer.swift in Sources */,
+				96F90C85D170CA3FC1798D5F /* LongestUnseen.swift in Sources */,
 				663D735E6DFC6DABA138AEBA /* Models.swift in Sources */,
 				88C06D531E95C52796D6E895 /* MomentBuilder.swift in Sources */,
 				3D2F8D3F20BFF3154F0049AF /* PersonDictionary.swift in Sources */,
@@ -151,6 +245,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2E82249E89FD088E24AB0AFB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 246CBF4619157B9D8419F87D /* WithWhomWidget */;
+			targetProxy = 704525E7C7D0B124DC04C6F0 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		1829733F4BBB00386457F395 /* Debug */ = {
@@ -220,6 +322,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = App/WithWhom.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = App/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -233,10 +336,28 @@
 			};
 			name = Release;
 		};
+		373302939466F12137AB1D4D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Widget/WithWhomWidget.entitlements;
+				INFOPLIST_FILE = Widget/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.jongwoo315.withwhom.widget;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
 		5B4DFF9638F18A2CDAB75BB2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = App/WithWhom.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = App/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -249,6 +370,23 @@
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
+		};
+		5B838A783F66E3E7D4A3F6A5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Widget/WithWhomWidget.entitlements;
+				INFOPLIST_FILE = Widget/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.jongwoo315.withwhom.widget;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
 		};
 		838B62EA7DA56EA5D0668039 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -309,6 +447,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		4F346AB8A58E597D4B5EA241 /* Build configuration list for PBXNativeTarget "WithWhomWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				373302939466F12137AB1D4D /* Debug */,
+				5B838A783F66E3E7D4A3F6A5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 		A0363F0F2662C97AD3172FA7 /* Build configuration list for PBXProject "WithWhom" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
