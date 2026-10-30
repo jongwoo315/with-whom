@@ -129,6 +129,11 @@ struct TitleParserTests {
         #expect(TitleParser.tokens("가람이 🤍 - 북엇국, 호머 맥주") == ["가람이", "북엇국", "호머", "맥주"])
     }
 
+    @Test("tokens는 글자가 없는 조각을 빼서 -가 별칭 후보로 안 나온다")
+    func tokensSkipPunctuation() {
+        #expect(TitleParser.tokens("가람 - 영화 - 저녁") == ["가람", "영화", "저녁"])
+    }
+
     @Test("tokens는 중복을 빼고 순서를 지킨다")
     func tokensDedupe() {
         #expect(TitleParser.tokens("가람 - 가람, 영화 가람") == ["가람", "영화"])

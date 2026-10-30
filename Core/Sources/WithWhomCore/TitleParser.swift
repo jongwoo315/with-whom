@@ -23,10 +23,13 @@ public enum TitleParser {
     }
 
     /// `parse`와 같은 규칙으로 나눈 낱말 목록. 순서를 지키고 중복은 뺀다.
+    /// 글자나 숫자가 하나도 없는 조각(`영화 - 저녁`의 `-`)은 별칭 후보가 될 수 없어 뺀다.
     public static func tokens(_ title: String) -> [String] {
         let parts = split(title)
         var seen = Set<String>()
-        return (parts.left + parts.right.flatMap { $0 }).map(String.init).filter { seen.insert($0).inserted }
+        return (parts.left + parts.right.flatMap { $0 }).map(String.init)
+            .filter { $0.contains { $0.isLetter || $0.isNumber } }
+            .filter { seen.insert($0).inserted }
     }
 
     public static func parse(_ title: String, dictionary: PersonDictionary) -> ParseResult {
