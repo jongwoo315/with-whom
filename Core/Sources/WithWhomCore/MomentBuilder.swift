@@ -18,6 +18,19 @@ public struct EventInput: Sendable, Equatable {
     }
 }
 
+/// 일정이 있던 곳. 역지오코딩이 실패하면 이름 없이 좌표만 남을 수 있어 name은 옵셔널이다.
+public struct Place: Sendable, Equatable {
+    public var name: String?
+    public var latitude: Double
+    public var longitude: Double
+
+    public init(name: String?, latitude: Double, longitude: Double) {
+        self.name = name
+        self.latitude = latitude
+        self.longitude = longitude
+    }
+}
+
 public struct MomentDraft: Sendable, Equatable {
     public var sourceId: String
     public var date: Date
@@ -27,6 +40,7 @@ public struct MomentDraft: Sendable, Equatable {
     public var people: Set<String>
     public var items: [String]
     public var needsReview: Bool
+    public var place: Place?
 }
 
 public enum MomentBuilder {
@@ -51,7 +65,8 @@ public enum MomentBuilder {
             return MomentDraft(
                 sourceId: event.id, date: calendar.startOfDay(for: event.start),
                 start: event.start, end: event.end, title: event.title,
-                people: people, items: items, needsReview: needsReview
+                people: people, items: items, needsReview: needsReview,
+                place: nil // stub: #159가 사진 좌표 묶음으로 바꾼다
             )
         }
     }
