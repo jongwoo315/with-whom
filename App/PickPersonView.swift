@@ -13,7 +13,7 @@ struct PickPersonView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var context
     @Query(sort: \Person.name) private var people: [Person]
-    @State private var alias = ""
+    @State private var alias = Self.firstAlias
     @State private var existingName: String?
     /// nil이면 별칭 칸 값을 따라간다
     @State private var newName: String?
@@ -26,6 +26,15 @@ struct PickPersonView: View {
     private var trimmedAlias: String { alias.trimmingCharacters(in: .whitespacesAndNewlines) }
     private var blockReason: String? { PickRule.blockReason(alias: alias, personName: personName) }
     private var canSave: Bool { blockReason == nil && !isSaving }
+
+    private static var firstAlias: String {
+        #if DEBUG
+        // 시뮬레이터에서 별칭 칸에 값을 넣은 상태로 열어 보려는 확인용: simctl launch ... -pickAlias 가람
+        let args = CommandLine.arguments
+        if let at = args.firstIndex(of: "-pickAlias"), args.indices.contains(at + 1) { return args[at + 1] }
+        #endif
+        return ""
+    }
 
     var body: some View {
         NavigationStack {
