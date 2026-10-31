@@ -10,6 +10,10 @@ final class Moment {
     var title: String
     var items: [String]
     var needsReview: Bool
+    // 기본값이 있는 옵셔널이라 SwiftData가 기존 저장 파일을 자동으로 고쳐 연다
+    var placeName: String? = nil
+    var latitude: Double? = nil
+    var longitude: Double? = nil
     @Relationship(inverse: \Person.moments) var people: [Person] = []
 
     init(sourceId: String, date: Date, start: Date, end: Date, title: String, items: [String], needsReview: Bool) {
