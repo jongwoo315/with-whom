@@ -13,7 +13,7 @@ struct PickPersonView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var context
     @Query(sort: \Person.name) private var people: [Person]
-    @State private var alias = ""
+    @State private var alias = Self.firstAlias
     @State private var existingName: String?
     /// nil이면 별칭 칸 값을 따라간다
     @State private var newName: String?
@@ -24,7 +24,17 @@ struct PickPersonView: View {
         (isNewPerson ? (newName ?? alias) : existingName ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
     }
     private var trimmedAlias: String { alias.trimmingCharacters(in: .whitespacesAndNewlines) }
-    private var canSave: Bool { PersonDictionary.isValidAliasKey(trimmedAlias) && !personName.isEmpty && !isSaving }
+    private var blockReason: String? { PickRule.blockReason(alias: alias, personName: personName) }
+    private var canSave: Bool { blockReason == nil && !isSaving }
+
+    private static var firstAlias: String {
+        #if DEBUG
+        // 시뮬레이터에서 별칭 칸에 값을 넣은 상태로 열어 보려는 확인용: simctl launch ... -pickAlias 가람
+        let args = CommandLine.arguments
+        if let at = args.firstIndex(of: "-pickAlias"), args.indices.contains(at + 1) { return args[at + 1] }
+        #endif
+        return ""
+    }
 
     var body: some View {
         NavigationStack {
@@ -47,33 +57,40 @@ struct PickPersonView: View {
                     }
                     TextField("별칭", text: $alias)
                 }
-                Section("누구인가") {
-                    // 일정이 모두 지워져 사람 목록 화면이 숨기는 사람은 고를 수 없게 같이 숨긴다
-                    ForEach(people.filter { !$0.moments.isEmpty }) { person in
+                if PersonDictionary.isValidAliasKey(trimmedAlias) {
+                    Section("누구인가") {
+                        // 일정이 모두 지워져 사람 목록 화면이 숨기는 사람은 고를 수 없게 같이 숨긴다
+                        ForEach(people.filter { !$0.moments.isEmpty }) { person in
+                            Button {
+                                existingName = person.name
+                            } label: {
+                                HStack {
+                                    Text(person.name)
+                                    Spacer()
+                                    if existingName == person.name { Image(systemName: "checkmark") }
+                                }
+                            }
+                            .foregroundStyle(.primary)
+                        }
                         Button {
-                            existingName = person.name
+                            existingName = nil
                         } label: {
                             HStack {
-                                Text(person.name)
+                                Text("새 사람")
                                 Spacer()
-                                if existingName == person.name { Image(systemName: "checkmark") }
+                                if isNewPerson { Image(systemName: "checkmark") }
                             }
                         }
                         .foregroundStyle(.primary)
-                    }
-                    Button {
-                        existingName = nil
-                    } label: {
-                        HStack {
-                            Text("새 사람")
-                            Spacer()
-                            if isNewPerson { Image(systemName: "checkmark") }
+                        if isNewPerson {
+                            TextField("이름", text: Binding(get: { newName ?? alias }, set: { newName = $0 }))
                         }
                     }
-                    .foregroundStyle(.primary)
-                    if isNewPerson {
-                        TextField("이름", text: Binding(get: { newName ?? alias }, set: { newName = $0 }))
-                    }
+                } else {
+                    Section { Text("위에서 낱말을 먼저 고른다").foregroundStyle(.secondary) }
+                }
+                if let reason = blockReason {
+                    Section { Text(reason).foregroundStyle(.secondary) }
                 }
             }
             .navigationTitle("사람 고르기")
