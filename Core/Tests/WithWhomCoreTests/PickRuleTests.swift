@@ -12,6 +12,8 @@ struct PickRuleTests {
         ("  ", "가람", aliasEmpty),
         ("김 가람", "가람", aliasInvalid),
         ("가람,", "가람", aliasInvalid),
+        ("김 가람", "", aliasInvalid),
+        ("  ", "", aliasEmpty),
         ("가람", "", nameEmpty),
         ("가람", "  ", nameEmpty),
         ("가람", "가람", nil),
