@@ -47,6 +47,20 @@ struct MomentBuilderTests {
         #expect(draft.end == late.addingTimeInterval(1800))
     }
 
+    @Test("build가 만든 초안은 모두 장소가 없다")
+    func draftsHaveNoPlace() {
+        let drafts = MomentBuilder.build([event("a", "가람이 - 잡채"), event("b", "헤어컷")], dictionary: dict)
+        #expect(drafts.count == 2)
+        #expect(drafts.allSatisfy { $0.place == nil })
+    }
+
+    @Test("Place는 이름 없이 좌표만 가질 수 있다")
+    func placeWithoutName() {
+        let place = Place(name: nil, latitude: 37.5, longitude: 127.0)
+        #expect(place.name == nil)
+        #expect(place == Place(name: nil, latitude: 37.5, longitude: 127.0))
+    }
+
     @Test("별칭을 넣으면 같은 제목이 확인 필요에서 풀린다")
     func interpretAfterAlias() {
         let before = MomentBuilder.interpret("자기 🤍 - 북엇국", dictionary: dict)

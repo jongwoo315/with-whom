@@ -5,12 +5,23 @@ struct ContentView: View {
     @Environment(\.modelContext) private var context
     @State private var importer = Importer()
     @State private var showsCalendars = false
+    @State private var selection = Self.firstTab
+
+    private static var firstTab: String {
+        #if DEBUG
+        // 시뮬레이터에서 탭 탭 없이 화면을 열어 보려는 확인용: simctl launch ... -openTab places
+        let args = CommandLine.arguments
+        if let at = args.firstIndex(of: "-openTab"), args.indices.contains(at + 1) { return args[at + 1] }
+        #endif
+        return "people"
+    }
 
     var body: some View {
-        TabView {
-            tab("사람별", systemImage: "person.2") { PeopleView() }
-            tab("날짜별", systemImage: "calendar") { DatesView() }
-            tab("확인 필요", systemImage: "questionmark.circle") { ReviewView(importer: importer) }
+        TabView(selection: $selection) {
+            tab("사람별", systemImage: "person.2", tag: "people") { PeopleView() }
+            tab("날짜별", systemImage: "calendar", tag: "dates") { DatesView() }
+            tab("확인 필요", systemImage: "questionmark.circle", tag: "review") { ReviewView(importer: importer) }
+            tab("장소별", systemImage: "map", tag: "places") { PlacesView() }
         }
         // 시트를 닫으면 가져오기를 다시 돌려, 끈 캘린더의 일정이 바로 지워지게 한다
         .sheet(isPresented: $showsCalendars, onDismiss: { Task { await importer.run(context: context) } }) {
@@ -22,7 +33,7 @@ struct ContentView: View {
         #endif
     }
 
-    private func tab<Content: View>(_ title: String, systemImage: String, @ViewBuilder content: () -> Content) -> some View {
+    private func tab<Content: View>(_ title: String, systemImage: String, tag: String, @ViewBuilder content: () -> Content) -> some View {
         NavigationStack {
             content()
                 .navigationTitle(title)
@@ -46,6 +57,7 @@ struct ContentView: View {
                 }
         }
         .tabItem { Label(title, systemImage: systemImage) }
+        .tag(tag)
     }
 }
 
@@ -60,6 +72,9 @@ struct MomentRow: View {
                 Text(moment.people.map(\.name).sorted().joined(separator: ", ")).font(.headline)
             }
             Text(moment.items.isEmpty ? moment.title : moment.items.joined(separator: " · "))
+            if let placeName = moment.placeName {
+                Text(placeName).font(.caption).foregroundStyle(.secondary)
+            }
         }
     }
 }

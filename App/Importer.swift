@@ -140,6 +140,8 @@ final class Importer {
                 moment.date = draft.date
                 moment.start = draft.start
                 moment.end = draft.end
+                // 장소를 모르는 가져오기가 저장된 장소를 지우지 않게 한다
+                if let place = draft.place { apply(place, to: moment) }
                 // 연락처를 못 읽은 실행의 빈 사람 목록이 이미 찾아 둔 사람을 지우지 않게 한다
                 if !keepingPeopleOfExisting {
                     moment.title = draft.title
@@ -154,10 +156,17 @@ final class Importer {
                 )
                 context.insert(moment)
                 moment.people = people
+                if let place = draft.place { apply(place, to: moment) }
                 moments[draft.sourceId] = moment
             }
         }
         try context.save()
+    }
+
+    private func apply(_ place: Place, to moment: Moment) {
+        moment.placeName = place.name
+        moment.latitude = place.latitude
+        moment.longitude = place.longitude
     }
 }
 
