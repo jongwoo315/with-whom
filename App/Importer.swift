@@ -40,8 +40,11 @@ final class Importer {
 
         let excluded = CalendarSource.excludedIds(for: calendars)
         let (kept, droppedIds) = CalendarFilter.split(events, excluded: excluded)
-        let drafts = MomentBuilder.build(kept, dictionary: PersonDictionary(contacts: contacts))
+        let drafts: [MomentDraft]
         do {
+            // 연락처를 못 읽으면 별칭만 든 사전이 이름 일부만 찾아 반쯤 풀린 일정을 만든다. 빈 사전으로 확인 필요에 보낸다
+            let dictionary = contactsLoaded ? try Self.dictionary(contacts: contacts, in: context) : PersonDictionary(contacts: [])
+            drafts = MomentBuilder.build(kept, dictionary: dictionary)
             try upsert(drafts, droppingSourceIds: droppedIds, keepingPeopleOfExisting: !contactsLoaded, into: context)
         } catch {
             context.rollback()
@@ -53,23 +56,86 @@ final class Importer {
         message = "일정 \(drafts.count)개를 가져왔다.\(skipped)\(notice)"
     }
 
+    /// 연락처 + 저장된 별칭 → 사전. 가져오기와 다시 해석이 같은 사전을 쓴다.
+    static func dictionary(contacts: [Contact], in context: ModelContext) throws -> PersonDictionary {
+        let aliases = try context.fetch(FetchDescriptor<Alias>())
+        return PersonDictionary(contacts: contacts, aliases: Dictionary(aliases.map { ($0.token, $0.personName) }, uniquingKeysWith: { first, _ in first }))
+    }
+
+    /// 확인 필요에서 고른 낱말을 별칭으로 저장하고, 저장된 일정을 새 사전으로 다시 해석한다.
+    func pickPerson(token: String, personName: String, context: ModelContext) async {
+        isRunning = true
+        defer { isRunning = false }
+
+        let token = token.trimmingCharacters(in: .whitespacesAndNewlines)
+        let personName = personName.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !personName.isEmpty else { return }
+        guard PersonDictionary.isValidAliasKey(token) else {
+            message = "별칭 \(token)은 공백이나 쉼표가 들어 있어 저장하지 않았다. 제목의 낱말 하나만 쓸 수 있다."
+            return
+        }
+
+        do {
+            if let alias = try context.fetch(FetchDescriptor<Alias>(predicate: #Predicate { $0.token == token })).first {
+                alias.personName = personName
+            } else {
+                context.insert(Alias(token: token, personName: personName))
+            }
+            try context.save()
+        } catch {
+            context.rollback()
+            message = "별칭을 저장하지 못했다: \(error.localizedDescription)"
+            return
+        }
+
+        // 연락처를 못 읽으면 사전이 연락처 없이 만들어져 이미 찾은 사람이 지워진다. 별칭만 남기고 멈춘다
+        let contacts: [Contact]
+        do {
+            contacts = try await ContactsSource().contacts()
+        } catch {
+            message = "별칭 \(token)을 넣었다. 연락처를 읽지 못해 이미 가져온 일정은 다시 해석하지 않았다."
+            return
+        }
+
+        do {
+            let result = try reinterpretAll(dictionary: Self.dictionary(contacts: contacts, in: context), in: context)
+            message = "별칭 \(token)을 넣었다. 일정 \(result.changed)개가 다시 해석돼 확인 필요에서 \(result.resolved)개가 빠졌다."
+        } catch {
+            context.rollback()
+            message = "별칭 \(token)을 넣었지만 일정을 다시 해석하지 못했다: \(error.localizedDescription)"
+            return
+        }
+        WidgetCenter.shared.reloadAllTimelines()
+    }
+
+    /// 저장된 Moment 전부를 사전으로 다시 해석한다. 캘린더는 다시 읽지 않는다.
+    /// changed: 사람·항목·확인 필요 중 하나라도 달라진 일정 수, resolved: 확인 필요에서 빠진 일정 수.
+    private func reinterpretAll(dictionary: PersonDictionary, in context: ModelContext) throws -> (changed: Int, resolved: Int) {
+        var index = try PersonIndex(context: context)
+        var changed = 0, resolved = 0
+        for moment in try context.fetch(FetchDescriptor<Moment>()) {
+            let result = MomentBuilder.interpret(moment.title, dictionary: dictionary)
+            if Set(moment.people.map(\.name)) == result.people, moment.items == result.items, moment.needsReview == result.needsReview { continue }
+            changed += 1
+            if moment.needsReview && !result.needsReview { resolved += 1 }
+            moment.items = result.items
+            moment.needsReview = result.needsReview
+            moment.people = result.people.sorted().map { index.person(named: $0) }
+        }
+        try context.save()
+        return (changed, resolved)
+    }
+
     private func upsert(_ drafts: [MomentDraft], droppingSourceIds droppedIds: Set<String>, keepingPeopleOfExisting: Bool, into context: ModelContext) throws {
         var moments = Dictionary(try context.fetch(FetchDescriptor<Moment>()).map { ($0.sourceId, $0) }, uniquingKeysWith: { first, _ in first })
         // 뺀 캘린더의 일정으로 이미 들어와 있던 것은 지운다. 비게 된 Person은 사람 목록 화면이 숨긴다
         for id in CalendarFilter.staleSourceIds(existing: Set(moments.keys), dropped: droppedIds) {
             if let moment = moments.removeValue(forKey: id) { context.delete(moment) }
         }
-        var persons = Dictionary(try context.fetch(FetchDescriptor<Person>()).map { ($0.name, $0) }, uniquingKeysWith: { first, _ in first })
+        var index = try PersonIndex(context: context)
 
         for draft in drafts {
-            let people = draft.people.sorted().map { name in
-                persons[name] ?? {
-                    let person = Person(name: name)
-                    context.insert(person)
-                    persons[name] = person
-                    return person
-                }()
-            }
+            let people = draft.people.sorted().map { index.person(named: $0) }
             if let moment = moments[draft.sourceId] {
                 moment.date = draft.date
                 moment.start = draft.start
@@ -92,5 +158,24 @@ final class Importer {
             }
         }
         try context.save()
+    }
+}
+
+/// 이름 → Person. 없는 이름은 만들어 넣는다. 가져오기와 다시 해석이 같이 쓴다.
+struct PersonIndex {
+    private var persons: [String: Person]
+    private let context: ModelContext
+
+    init(context: ModelContext) throws {
+        self.context = context
+        persons = Dictionary(try context.fetch(FetchDescriptor<Person>()).map { ($0.name, $0) }, uniquingKeysWith: { first, _ in first })
+    }
+
+    mutating func person(named name: String) -> Person {
+        if let person = persons[name] { return person }
+        let person = Person(name: name)
+        context.insert(person)
+        persons[name] = person
+        return person
     }
 }

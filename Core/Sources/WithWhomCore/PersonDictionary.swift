@@ -8,14 +8,15 @@ public struct Contact: Sendable, Equatable {
     }
 }
 
-/// 연락처에서 만든 이름 → 대표 이름 사전. 이름인지 아닌지는 이 사전에 있느냐로만 정한다.
+/// 연락처와 별칭에서 만든 이름 → 대표 이름 사전. 이름인지 아닌지는 이 사전에 있느냐로만 정한다.
 public struct PersonDictionary: Sendable {
     // 긴 접미사부터 떼어 본다
     private static let suffixes = ["이랑", "이가", "랑", "가", "이", "씨", "님"]
 
     private let names: [String: String]
 
-    public init(contacts: [Contact]) {
+    /// `aliases`는 낱말 → 사람 이름이다. 같은 키가 연락처에도 있으면 별칭이 우선한다.
+    public init(contacts: [Contact], aliases: [String: String] = [:]) {
         var names: [String: String] = [:]
         for contact in contacts where !contact.given.isEmpty {
             let isFullName = contact.family.isEmpty && Self.isThreeHangul(contact.given)
@@ -24,7 +25,22 @@ public struct PersonDictionary: Sendable {
             if isFullName { keys.append(representative) }
             for key in keys where names[key] == nil { names[key] = representative }
         }
+        for (token, name) in aliases where !token.isEmpty && !name.isEmpty { names[token] = name }
         self.names = names
+    }
+
+    /// 별칭 낱말로 저장할 수 있는지. 제목은 공백과 쉼표에서 나뉘므로 그런 글자가 든 낱말은 어떤 제목에서도 안 잡힌다.
+    public static func isValidAliasKey(_ token: String) -> Bool {
+        !token.isEmpty && !token.contains { $0 == "," || $0.isWhitespace }
+    }
+
+    /// 끝의 접미사를 하나 뗀 꼴. 떼고 남는 글자가 2글자보다 적으면 그 접미사는 건너뛰고 다음 접미사를 본다.
+    /// 한 글자만 남기면 `아이`→`아`가 돼, 별칭 `아`가 `아가`·`아님` 같은 다른 낱말까지 잡는다.
+    public static func baseForm(_ token: String) -> String {
+        for suffix in suffixes where token.hasSuffix(suffix) && token.count - suffix.count >= 2 {
+            return String(token.dropLast(suffix.count))
+        }
+        return token
     }
 
     /// 토큰 자체 또는 끝의 접미사를 뗀 꼴이 사전에 있으면 그 사람의 대표 이름을 돌려준다.

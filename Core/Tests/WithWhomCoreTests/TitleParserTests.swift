@@ -95,4 +95,61 @@ struct TitleParserTests {
     func emptyTitle() {
         #expect(TitleParser.parse("  🤍 ", dictionary: dict) == .review(items: []))
     }
+
+    @Test("별칭 사전으로 연인 호칭 꼴을 푼다")
+    func aliasTitle() {
+        let aliasDict = PersonDictionary(contacts: [], aliases: ["가람": "가람"])
+        #expect(TitleParser.parse("가람이 🤍 - 북엇국, 호머", dictionary: aliasDict)
+            == .auto(people: ["가람"], items: ["북엇국", "호머"]))
+        #expect(TitleParser.parse("가람이랑 영화", dictionary: aliasDict)
+            == .auto(people: ["가람"], items: ["영화"]))
+    }
+
+    @Test("연락처와 별칭이 겹치면 별칭의 사람이 붙는다")
+    func aliasOverridesContact() {
+        let d = PersonDictionary(contacts: [Contact(given: "나래", family: "")], aliases: ["나래": "다솜"])
+        #expect(TitleParser.parse("나래 점심", dictionary: d) == .auto(people: ["다솜"], items: ["점심"]))
+    }
+
+    @Test("붙여 쓴 낱말 일부는 별칭으로 안 잡힌다")
+    func attachedWordNotCaught() {
+        let d = PersonDictionary(contacts: [], aliases: ["엄마": "엄마"])
+        #expect(TitleParser.parse("엄마생일", dictionary: d) == .review(items: ["엄마생일"]))
+    }
+
+    @Test("한 글자 별칭이 만들어지지 않아 다른 낱말까지 잡지 않는다")
+    func pickedAliasNotOverMatching() {
+        let d = PersonDictionary(contacts: [], aliases: [PersonDictionary.baseForm("아가"): "다솜"])
+        #expect(TitleParser.parse("아이 생일", dictionary: d) == .review(items: ["아이 생일"]))
+        #expect(TitleParser.parse("아가 병원", dictionary: d) == .auto(people: ["다솜"], items: ["병원"]))
+    }
+
+    @Test("화면에서 고른 낱말의 baseForm을 별칭으로 넣으면 그 제목이 풀린다",
+          arguments: ["가람이랑 영화", "자기 🤍 - 북엇국, 호머 맥주", "엄마가 - 생일", "한결씨 점심"])
+    func pickedTokenResolvesTitle(title: String) {
+        for token in TitleParser.tokens(title) {
+            let d = PersonDictionary(contacts: [], aliases: [PersonDictionary.baseForm(token): "다솜"])
+            guard case .auto(let people, _) = TitleParser.parse(title, dictionary: d) else {
+                Issue.record("낱말 \(token)을 별칭으로 넣었는데 \(title)이 풀리지 않았다")
+                continue
+            }
+            #expect(people.contains("다솜"))
+        }
+    }
+
+    @Test("tokens는 parse와 같은 규칙으로 낱말을 나눈다")
+    func tokens() {
+        #expect(TitleParser.tokens("가람이 🤍 - 북엇국, 호머 맥주") == ["가람이", "북엇국", "호머", "맥주"])
+    }
+
+    @Test("tokens는 글자가 없는 조각을 빼서 -가 별칭 후보로 안 나온다")
+    func tokensSkipPunctuation() {
+        #expect(TitleParser.tokens("가람 - 영화 - 저녁") == ["가람", "영화", "저녁"])
+    }
+
+    @Test("tokens는 중복을 빼고 순서를 지킨다")
+    func tokensDedupe() {
+        #expect(TitleParser.tokens("가람 - 가람, 영화 가람") == ["가람", "영화"])
+        #expect(TitleParser.tokens("  🤍 ") == [])
+    }
 }
