@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2A2512971A96312A27997972 /* ContactsSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E815D9C9D10835B02A115732 /* ContactsSource.swift */; };
 		2AF6B17EAE5C1C62B7F5230F /* LongestUnseen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E8E4768878CEB8B1F5B08C /* LongestUnseen.swift */; };
+		38222D0A3F0AF9461188FEDA /* PickRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CCF618BE943617DC3AE0B1 /* PickRule.swift */; };
 		3922271E861988BB68180266 /* CalendarSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04435D538900E98855709E77 /* CalendarSource.swift */; };
 		3CE430CE952AEDCF742B2B4B /* CalendarFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE123391944D3C56D000D113 /* CalendarFilter.swift */; };
 		3D2F8D3F20BFF3154F0049AF /* PersonDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A979FB88F0A3D634AD2BAE /* PersonDictionary.swift */; };
@@ -18,6 +19,7 @@
 		656617B6FC22FF74BC6BCB4A /* CalendarPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96BC54DBADE9610D0DAA141 /* CalendarPickerView.swift */; };
 		663D735E6DFC6DABA138AEBA /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0BFC890B7B58D9C10416E2 /* Models.swift */; };
 		6770B0304D65260FED985542 /* WithWhomWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716137632AD7AA7D29C988D8 /* WithWhomWidget.swift */; };
+		6C8D26761654711D4434D3AB /* PickRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CCF618BE943617DC3AE0B1 /* PickRule.swift */; };
 		6CEDD12A9892180B867DAFC3 /* PersonDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A979FB88F0A3D634AD2BAE /* PersonDictionary.swift */; };
 		6E73FC2F211592778AF31C07 /* PickPersonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1090B080A2F1F1EC4EDBF6 /* PickPersonView.swift */; };
 		729124CBA6DAF70BA76E73CD /* TitleParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56044A39165F3D992E0EA138 /* TitleParser.swift */; };
@@ -67,6 +69,7 @@
 		56044A39165F3D992E0EA138 /* TitleParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleParser.swift; sourceTree = "<group>"; };
 		61CD37CE1092043C9A4CD614 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		716137632AD7AA7D29C988D8 /* WithWhomWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithWhomWidget.swift; sourceTree = "<group>"; };
+		76CCF618BE943617DC3AE0B1 /* PickRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickRule.swift; sourceTree = "<group>"; };
 		7AA9E5C44B1E8494EBFE01BA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		86070EDC53570C15D9246201 /* WithWhom.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WithWhom.entitlements; sourceTree = "<group>"; };
 		86E8E4768878CEB8B1F5B08C /* LongestUnseen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongestUnseen.swift; sourceTree = "<group>"; };
@@ -106,6 +109,7 @@
 				86E8E4768878CEB8B1F5B08C /* LongestUnseen.swift */,
 				3FE276765EAE165BE71297E5 /* MomentBuilder.swift */,
 				97A979FB88F0A3D634AD2BAE /* PersonDictionary.swift */,
+				76CCF618BE943617DC3AE0B1 /* PickRule.swift */,
 				56044A39165F3D992E0EA138 /* TitleParser.swift */,
 			);
 			name = WithWhomCore;
@@ -226,6 +230,7 @@
 				A3C449F5BD39C71AA000DCAB /* Models.swift in Sources */,
 				9DE8390F65C7175FD53978CC /* MomentBuilder.swift in Sources */,
 				6CEDD12A9892180B867DAFC3 /* PersonDictionary.swift in Sources */,
+				38222D0A3F0AF9461188FEDA /* PickRule.swift in Sources */,
 				CCCC1A3F36B805D44E9DC865 /* TitleParser.swift in Sources */,
 				6770B0304D65260FED985542 /* WithWhomWidget.swift in Sources */,
 			);
@@ -246,6 +251,7 @@
 				88C06D531E95C52796D6E895 /* MomentBuilder.swift in Sources */,
 				3D2F8D3F20BFF3154F0049AF /* PersonDictionary.swift in Sources */,
 				6E73FC2F211592778AF31C07 /* PickPersonView.swift in Sources */,
+				6C8D26761654711D4434D3AB /* PickRule.swift in Sources */,
 				C5C7CC93BC976ECBE06B0CF7 /* PlacesView.swift in Sources */,
 				729124CBA6DAF70BA76E73CD /* TitleParser.swift in Sources */,
 				6033C39E92DB3524C451FBAF /* WithWhomApp.swift in Sources */,

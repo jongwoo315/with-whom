@@ -6,6 +6,15 @@ struct ContentView: View {
     @State private var importer = Importer()
     @State private var showsCalendars = false
     @State private var selection = Self.firstTab
+    #if DEBUG
+    @State private var showsPreview = Self.previewTitle != nil
+
+    private static var previewTitle: String? {
+        let args = CommandLine.arguments
+        guard let at = args.firstIndex(of: "-pickPreview"), args.indices.contains(at + 1) else { return nil }
+        return args[at + 1]
+    }
+    #endif
 
     private static var firstTab: String {
         #if DEBUG
@@ -30,6 +39,8 @@ struct ContentView: View {
         #if DEBUG
         // 시뮬레이터에서 버튼 탭 없이 가져오기를 돌려 보려는 확인용: simctl launch ... -autoImport
         .task { if CommandLine.arguments.contains("-autoImport") { await importer.run(context: context) } }
+        // 시뮬레이터는 일정이 0개라, 제목만 주고 사람 고르기 시트를 열어 보려는 확인용: simctl launch ... -pickPreview "제목"
+        .sheet(isPresented: $showsPreview) { PickPersonView(title: Self.previewTitle ?? "", importer: importer) }
         #endif
     }
 
